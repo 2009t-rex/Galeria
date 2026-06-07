@@ -183,8 +183,7 @@
             save.href = obrazek.src;
 
             // Pobranie nazwy pliku z adresu obrazka
-            const url = new URL(obrazek.src);
-            const nazwaPliku = url.pathname.split("/").pop() || "obrazek.jpg";
+            const nazwaPliku = obrazek.src.split("/").pop()
             save.download = nazwaPliku;
 
             document.body.appendChild(save);
