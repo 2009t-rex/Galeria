@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>06.06.2026 19:29</title>
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+        input, button{
+            max-width: 30vw;
+        }
+    </style>
+</head>
+<body class="or-theme--stealth or-root">
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Co to fetch()?</h1>
+        <p>fetch() - wbudowana funkcja w JS do wysyłania żądań HTTP do serwerów i pobierania danych.</p>
+        <p>Jest obecnie standardowym sposobem wykonywania zapytań sieciowych w JavaScript i zastąpił starsze rozwiązanie XMLHttpRequest</p>
+    </div>
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Ważniejsze zastosowania</h1>
+        <ul>
+            <li>Pobieranie danych z API - rzeczy typu pobieranie pogody, kursów walut lub wiadomości.</li>
+            <li>Ładowanie danych bez odświeżania strony.</li>
+            <li>Wysyłanie formularzy do serwera.</li>
+            <li>Logowanie i rejestracja użytkowników.</li>
+            <li>Pobieranie plików JSON.</li>
+            <li>Komunikacja z bazą danych za pośrednictwem backendu.</li>
+            <li>Pobieranie tekstu, obrazów i innych zasobów z serwera.</li>
+        </ul>
+    </div>
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Przykład:</h1>
+        <p>Tutaj jest wzięty z api o losowych żartach</p>
+        <div class="or-grid">
+            <code class="or-code or-text--accent">
+                // Wysyła żądanie HTTP do podanego adresu API<br>
+                fetch("https://official-joke-api.appspot.com/random_joke")<br>
+                <br>
+                // Po otrzymaniu odpowiedzi zamienia JSON na obiekt JavaScript<br>
+                .then(response => response.json())<br>
+                <br>
+                // Dane przypisujemy do zmiennej data i ją wyświetlamy w konsoli,<br>
+                // żeby zobaczyć budowę obiektu<br>
+                .then(data => {<br>
+                    console.log(data);<br>
+                })<br>
+                // Łapie błędy, chyba oczywiste...<br>
+                .catch(error => {<br>
+                    console.error(error);<br>
+                });<br>
+            </code>
+            <h3 class="or-heading-3" id="setup"></h3>
+            <h3 class="or-heading-3" id="punchline"></h3>
+        </div>
+        <p>Bardzo śmieszne co nie?? this shit not funny</p>
+        <p>
+            Funkcja zwraca obiekt Promise (Obietnicę), dlatego wynik nie jest dostępny od razu. Po otrzymaniu odpowiedzi można ją przetworzyć za pomocą metod takich jak json() czy text().
+        </p>
+    </div>
+    <script>
+        fetch("https://official-joke-api.appspot.com/random_joke")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById("setup").textContent = data.setup
+                document.getElementById("punchline").textContent = data.punchline
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Co można jeszcze stworzyć dzięki fetch()?</h1>
+        <div class="or-grid">
+            <h3 class="or-heading-3">Pobieranie obrazków, np pokemonów</h3>
+            <input type="text" id="pokemonName" placeholder="Enter Pokemon name" class="or-input">
+            <button onclick="fetchData()" class="or-btn OR-btn--primary">Fetch Pokemon</button><br>
+            
+            <img src="" alt="Pokemon Sprite" id="pokemonSprite" style="display: none">
+        </div>
+        <h3 class="or-heading-3">Stworzyć aplikację pogodową</h3>
+
+    </div>
+    <script>
+        async function fetchData(){
+            try{
+
+                const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
+                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+
+                if(!response.ok){
+                    throw new Error("Could not fetch resource");
+                }
+
+                const data = await response.json();
+                const pokemonSprite = data.sprites.front_default;
+                const imgElement = document.getElementById("pokemonSprite");
+
+                imgElement.src = pokemonSprite;
+                imgElement.style.display = "block";
+            }
+            catch(error){
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

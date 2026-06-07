@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>06.06.2026 19:29</title>
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+        input, button{
+            max-width: 30vw;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="or-theme--zero-shard or-root">
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Co to modal?</h1>
+        <p>Modal wyskakujące okno dialogowe, które przerywa interakcję użytkownika ze stroną, blokując dostęp do reszty treści do momentu zamknięcia okna.</p>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Jak stworzyć modal?</h1>
+        <p>Modal tworzymy za pomocą znacznika <code>&lt;dialog&gt;</code>.<br>
+            Po stworzeniu element nie wyświetli się sam na stronie, posiada <code>display: none</code>.<br>
+            Żeby, go otworzyć potrzeba guzika, który go pokaże.
+            Poniżej pokarze kilka sposobów jak to zrobić.
+        </p>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Jak pokazać modal?</h1>
+        <div class="or-grid">
+            <div class="or-panel">
+                <h3 class="or-heading-3">Sposób 1 - zmiana display</h3>
+                <p>Wykorzystujemy JavaScript do zmiany właściwości <code>display</code>.</p>
+
+                <button id="openModal1" class="or-btn OR-btn--primary">
+                    Otwórz modal
+                </button>
+
+                <dialog id="modal1">
+                    <p>To jest modal otwarty poprzez zmianę display.</p>
+                    <button id="closeModal1" class="or-btn OR-btn--primary">
+                        Zamknij
+                    </button>
+                </dialog>
+
+                <div class="or-grid">
+                    <code class="or-code">
+                        const modal = document.getElementById("modal");<br>
+                        const openBtn = document.getElementById("openModal");<br>
+                        const closeBtn = document.getElementById("closeModal");<br><br>
+
+                        openBtn.onclick = () => {<br>
+                        &nbsp;&nbsp;modal.style.display = "block";<br>
+                        }<br><br>
+
+                        closeBtn.onclick = () => {<br>
+                        &nbsp;&nbsp;modal.style.display = "none";<br>
+                        }
+                    </code>
+                </div>
+
+                <script>
+                    const modal1 = document.getElementById("modal1");
+                    const openBtn1 = document.getElementById("openModal1");
+                    const closeBtn1 = document.getElementById("closeModal1");
+
+                    openBtn1.onclick = () => modal1.style.display = "block";
+                    closeBtn1.onclick = () => modal1.style.display = "none";
+                </script>
+            </div>
+            <div class="or-panel">
+                <h3 class="or-heading-3">Sposób 2 - showModal() i close()</h3>
+                <p>
+                    Wykorzystujemy wbudowane metody elementu dialog. <br>
+                    showModal() — otwiera okno jako modal <br>
+                    close() — zamyka okno <br>
+                </p>
+
+                <button id="openModal2" class="or-btn OR-btn--primary">
+                    Otwórz modal
+                </button>
+
+                <dialog id="modal2">
+                    <p>To jest modal otwarty metodą showModal().</p>
+                    <button id="closeModal2" class="or-btn OR-btn--primary">
+                        Zamknij
+                    </button>
+                </dialog>
+
+                <div class="or-grid">
+                    <code class="or-code">
+                        const modal = document.getElementById("modal");<br>
+                        const openBtn = document.getElementById("openModal");<br>
+                        const closeBtn = document.getElementById("closeModal");<br><br>
+
+                        openBtn.onclick = () => {<br>
+                        &nbsp;&nbsp;modal.showModal();<br>
+                        }<br><br>
+
+                        closeBtn.onclick = () => {<br>
+                        &nbsp;&nbsp;modal.close();<br>
+                        }
+                    </code>
+                </div>
+
+                <script>
+                    const modal2 = document.getElementById("modal2");
+                    const openBtn2 = document.getElementById("openModal2");
+                    const closeBtn2 = document.getElementById("closeModal2");
+
+                    openBtn2.onclick = () => modal2.showModal();
+                    closeBtn2.onclick = () => modal2.close();
+                </script>
+            </div>
+
+            <div class="or-panel">
+                <h3 class="or-heading-3">Sposób 3 - Invoker Commands API</h3>
+                <p>
+                    Nowoczesne API, które pozwala nam pisać w guziku polecenia. <br>
+                    Nowoczesny sposób otwierania i zamykania modala bez JavaScript.
+                </p>
+
+                <button
+                    commandfor="modal3"
+                    command="show-modal"
+                    class="or-btn OR-btn--secondary">
+                    Otwórz modal
+                </button>
+
+                <dialog id="modal3">
+                    <p>Ten modal został otwarty bez JavaScript.</p>
+
+                    <button
+                        commandfor="modal3"
+                        command="close"
+                        class="or-btn OR-btn--primary">
+                        Zamknij
+                    </button>
+                </dialog>
+
+                <div class="or-grid">
+                    <code class="or-code">
+                        &lt;button commandfor="modal"
+                        command="show-modal"&gt;
+                        Otwórz modal
+                        &lt;/button&gt;<br><br>
+
+                        &lt;dialog id="modal"&gt;<br>
+                        &nbsp;&nbsp;&lt;button commandfor="modal"
+                        &nbsp;&nbsp;command="close"&gt;
+                        &nbsp;&nbsp;Zamknij
+                        &nbsp;&nbsp;&lt;/button&gt;<br>
+                        &lt;/dialog&gt;
+                    </code>
+                </div>
+            </div>
+            <div class="or-panel">
+                <h3 class="or-heading-3">Sposób na zamknięcie, gdy klikniemy poza dialog</h3>
+                <p>Do 1 i 2 sposobu możemy dopisać następującego JS:</p>
+                <div class="or-grid">
+                    <code class="or-code">
+                        modal.addEventListener("click", (e) => {<br>
+                            &nbsp;if (e.target === modal) {<br>
+                                &nbsp;&nbsp;modal.style.display = "none";<br>
+                                &nbsp;&nbsp;//lub <br>
+                                &nbsp;&nbsp;modal.close() <br>
+                            &nbsp;} <br>
+                        }); <br>
+                    </code>
+                </div>
+                <p>Dzięki temu, jeśli klikniemy poza obszar modalu zostanie on zmaknięty</p>
+                <button id="openModal4" class="or-btn OR-btn--secondary">
+                    Otwórz modal
+                </button>
+
+                <dialog id="modal4" style="box-sizing: border-box;">
+                    <div>
+                        <p>Modal wyłączy się jak klikniesz poza.</p>
+                        <button id="closeModal4" class="or-btn OR-btn--primary">
+                            Zamknij
+                        </button>
+                    </div>
+                </dialog>
+                <script>
+                    const modal4 = document.getElementById("modal4");
+                    const openBtn4 = document.getElementById("openModal4");
+                    const closeBtn4 = document.getElementById("closeModal4");
+
+                    openBtn4.onclick = () => modal4.showModal();
+                    closeBtn4.onclick = () => modal4.close();
+                    modal4.addEventListener("click", (e) => {
+                        if(e.target === modal4){
+                            modal4.close()
+                        }
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="or-card or-animate--pulse-glow">
+        <h3 class="or-heading-3">Dlaczego showModal() jest lepsze?</h3>
+        <h4 class="or-heading-4">
+            Automatycznie blokuje stronę. <br>
+            Ma wbudowaną metodę zamknięcia: close()
+        </h4>
+    </div>
+    <div class="or-card or-animate--pulse-glow">
+        <h3 class="or-heading-3">Animacja 3D pojawiania się modalu.</h3>
+        <div class="or-grid">
+            <code class="or-code">
+                 /* Stylizacja modala */ <br>
+                dialog {<br>
+                    &nbsp;opacity: 0;<br>
+                    &nbsp;transform: perspective(2000px) rotateX(-90deg);<br>
+                    &nbsp;transform-origin: top center; <br>
+                    &nbsp;transition: <br>
+                        &nbsp;&nbsp;opacity 0.5s ease-out, <br>
+                        &nbsp;&nbsp;transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), <br>
+                        &nbsp;&nbsp;display 0.5s allow-discrete;<br>
+                }<br>
+<br>
+                dialog[open] {<br>
+                    &nbsp;opacity: 1;<br>
+                    &nbsp;transform: perspective(2000px) rotateX(0deg);<br>
+                }<br>
+<br>
+                @starting-style {<br>
+                    &nbsp;dialog[open] {<br>
+                        &nbsp;&nbsp;opacity: 0;<br>
+                        &nbsp;&nbsp;transform: perspective(2000px) rotateX(-90deg);<br>
+                    &nbsp;}<br>
+                }<br>
+<br>
+                dialog::backdrop {<br>
+                    &nbsp;background-color: rgba(0, 0, 0, 0);<br>
+                    &nbsp;transition: background-color 0.5s ease, display 0.5s allow-discrete;<br>
+                }<br>
+<br>
+                dialog[open]::backdrop {<br>
+                    &nbsp;background-color: rgba(0, 0, 0, 0.6);<br>
+                }<br>
+<br>
+                @starting-style {<br>
+                    &nbsp;dialog[open]::backdrop {<br>
+                        &nbsp;&nbsp;background-color: rgba(0, 0, 0, 0);<br>
+                    &nbsp;}<br>
+                }<br>
+            </code>
+        </div>
+    </div>
+    <div class="or-card">
+        <h2 class="or-heading-2">Istnieje jeszcze popover APi, które jeśli zdążymy zostanie omówione pod koniec lekcji. <br> Nie jest wymagane na zaliczenie. :D</h2>
+    </div>
+</body>
+</html>

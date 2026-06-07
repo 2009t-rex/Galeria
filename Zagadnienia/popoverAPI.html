@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>07.06.2026 17:25</title>
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+        input, button{
+            max-width: 30vw;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="or-theme--frigid-glow or-root">
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Co to Popover API?</h1>
+        <p>
+            Popover API to nowoczesny sposób tworzenia „wyskakujących elementów” (tooltipów, menu, podpowiedzi), które
+            pojawiają się nad stroną, ale <b>nie blokują interakcji</b> tak jak modal.
+            <br><br>
+            W przeciwieństwie do <code>&lt;dialog&gt;</code>, popover nie blokuje reszty strony i działa bardziej jak
+            lekki overlay.
+        </p>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Jak stworzyć popover?</h1>
+        <p>
+            Wystarczy użyć atrybutu <code>popover</code> na dowolnym elemencie HTML.
+            <br>
+            Domyślnie element jest ukryty i pojawia się dopiero po wywołaniu.
+        </p>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Sposób 1 — showPopover() i hidePopover()</h1>
+
+        <button id="openPopover1" class="or-btn OR-btn--primary">
+            Otwórz popover
+        </button>
+
+        <div id="popover1" popover>
+            <p>To jest popover otwarty metodą showPopover().</p>
+            <button id="closePopover1" class="or-btn OR-btn--ghost">
+                Zamknij
+            </button>
+        </div>
+
+        <div class="or-grid">
+            <code class="or-code">
+                const popover = document.getElementById("popover");<br>
+                const openBtn = document.getElementById("open");<br>
+                const closeBtn = document.getElementById("close");<br><br>
+
+                openBtn.onclick = () => {<br>
+                &nbsp;&nbsp;popover.showPopover();<br>
+                }<br><br>
+
+                closeBtn.onclick = () => {<br>
+                &nbsp;&nbsp;popover.hidePopover();<br>
+                }
+            </code>
+        </div>
+
+        <script>
+            const popover1 = document.getElementById("popover1");
+            const openPopover1 = document.getElementById("openPopover1");
+            const closePopover1 = document.getElementById("closePopover1");
+
+            openPopover1.onclick = () => popover1.showPopover();
+            closePopover1.onclick = () => popover1.hidePopover();
+        </script>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Sposób 2 — Invoker Commands API</h1>
+
+        <p>
+            Tak jak w modalu, możemy używać deklaratywnych komend bez JavaScript.
+        </p>
+
+        <button
+            popovertarget="popover2"
+            popovertargetaction="show"
+            class="or-btn OR-btn--primary">
+            Otwórz popover
+        </button>
+
+        <div id="popover2" popover>
+            <p>Popover otwarty bez JavaScript.</p>
+
+            <button
+                popovertarget="popover2"
+                popovertargetaction="hide"
+                class="or-btn OR-btn--ghost">
+                Zamknij
+            </button>
+        </div>
+
+        <div class="or-grid">
+            <code class="or-code">
+                &lt;button popovertarget="popover"<br>
+                &nbsp;&nbsp;popovertargetaction="show"&gt;<br>
+                &nbsp;&nbsp;Otwórz<br>
+                &lt;/button&gt;<br><br>
+
+                &lt;div id="popover" popover&gt;<br>
+                &nbsp;&nbsp;&lt;button popovertarget="popover"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;popovertargetaction="hide"&gt;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Zamknij<br>
+                &nbsp;&nbsp;&lt;/button&gt;<br>
+                &lt;/div&gt;
+            </code>
+        </div>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Różnica między Popover a Modal</h1>
+
+        <h3 class="or-heading-3">Popover</h3>
+        <p>
+            ✔ Nie blokuje strony<br>
+            ✔ Może być lekko interaktywny (tooltip, menu)<br>
+            ✔ Nie wymusza zamknięcia
+        </p>
+
+        <h3 class="or-heading-3">Modal (&lt;dialog&gt;)</h3>
+        <p>
+            ✔ Blokuje resztę strony<br>
+            ✔ Wymusza interakcję (np. zamknięcie)<br>
+            ✔ Używany do ważnych akcji (formularze, potwierdzenia)
+        </p>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Dodatkowa funkcja</h1>
+        <p>
+            Popover automatycznie zamyka się po kliknięciu poza elementem
+            — nie trzeba pisać dodatkowego JavaScriptu jak w dialogu.
+        </p>
+    </div>
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Rodzaje popoverów</h1>
+
+        <p>
+            Popover API może działać w kilku trybach — w zależności od tego, jak bardzo chcemy kontrolować jego zachowanie.
+        </p>
+
+        <div class="or-grid">
+
+            <div class="or-panel">
+                <h3 class="or-heading-3">1. popover="auto"</h3>
+                <p>
+                    Domyślny tryb.  
+                    Popover automatycznie zamyka się, gdy klikniesz poza nim lub otworzysz inny popover.
+                    <br><br>
+                    Najczęściej używany do menu i tooltipów.
+                </p>
+
+                <code class="or-code">
+                    &lt;div popover="auto"&gt;<br>
+                    &nbsp;&nbsp;Treść popovera<br>
+                    &lt;/div&gt;
+                </code>
+            </div>
+
+            <div class="or-panel">
+                <h3 class="or-heading-3">2. popover="manual"</h3>
+                <p>
+                    W tym trybie masz pełną kontrolę nad otwieraniem i zamykaniem.
+                    <br>
+                    Nie zamknie się sam po kliknięciu poza elementem.
+                    <br><br>
+                    Używane np. w niestandardowych panelach UI.
+                </p>
+
+                <code class="or-code">
+                    &lt;div popover="manual"&gt;<br>
+                    &nbsp;&nbsp;Treść popovera<br>
+                    &lt;/div&gt;
+                </code>
+            </div>
+
+            <div class="or-panel">
+                <h3 class="or-heading-3">3. popover="hint"</h3>
+                <p>
+                    Tryb „podpowiedzi” (hint) używany do lekkich UI jak tooltipy.
+                    <br><br>
+                    • znika szybciej niż <code>auto</code><br>
+                    • nie wymaga pełnej interakcji<br>
+                    • idealny do hover / focus / podpowiedzi
+                </p>
+
+                <code class="or-code">
+                    &lt;div popover="hint"&gt;<br>
+                    &nbsp;&nbsp;Podpowiedź UI<br>
+                    &lt;/div&gt;
+                </code>
+            </div>
+
+            <div class="or-panel">
+                <h3 class="or-heading-3">4. Light-dismiss</h3>
+                <p>
+                    Mechanizm zamykania po kliknięciu poza popover.
+                    <br>
+                    Działa automatycznie tylko w trybie <code>auto</code>.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Pozycjonowanie popoverów</h1>
+
+        <p>
+            Popover API nie narzuca pozycji na ekranie.
+            Każdy popover trafia do specjalnej warstwy <b>top-layer</b>,
+            a jego pozycja zależy od CSS.
+        </p>
+
+        <div class="or-panel">
+            <h3 class="or-heading-3">1. Warstwa top-layer</h3>
+            <p>
+                Popover nie działa jak zwykły element DOM.
+                Jest renderowany nad całą stroną, niezależnie od <code>z-index</code>.
+            </p>
+        </div>
+
+        <div class="or-panel">
+            <h3 class="or-heading-3">2. Pozycjonowanie klasyczne (CSS)</h3>
+            <p>
+                Możemy ustawić go ręcznie jak overlay:
+            </p>
+
+            <code class="or-code">
+                [popover] {<br>
+                &nbsp;&nbsp;position: fixed;<br>
+                &nbsp;&nbsp;top: 120px;<br>
+                &nbsp;&nbsp;left: 120px;<br>
+                }
+            </code>
+
+            <p>
+                To podejście działa, ale jest mało elastyczne — nie reaguje na przycisk wywołujący.
+            </p>
+        </div>
+
+        <div class="or-panel">
+            <h3 class="or-heading-3">3. Anchor Positioning (nowoczesne UI)</h3>
+            <p>
+                Najnowszy i najlepszy sposób pozycjonowania popoverów.
+                Pozwala „przypiąć” popover do elementu wyzwalającego.
+            </p>
+
+            <code class="or-code">
+                button { anchor-name: --btn; }<br><br>
+
+                #popover {<br>
+                &nbsp;&nbsp;position-anchor: --btn;<br>
+                &nbsp;&nbsp;top: anchor(bottom);<br>
+                &nbsp;&nbsp;left: anchor(center);<br>
+                }
+            </code>
+        </div>
+
+        <div class="or-panel">
+            <h3 class="or-heading-3">4. Dlaczego to ważne?</h3>
+            <p>
+                Dzięki temu popovery mogą działać jak:
+                <br>
+                • tooltipy przy przyciskach<br>
+                • dropdowny<br>
+                • menu kontekstowe<br>
+                • podpowiedzi UI
+            </p>
+        </div>
+    </div>
+</body>
+</html>

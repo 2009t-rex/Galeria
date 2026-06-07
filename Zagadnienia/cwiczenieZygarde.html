@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>Galeria zdjęć</title>
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+        input, button{
+            max-width: 30vw;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="or-theme--green-nebula or-root">
+
+```
+<div class="or-card">
+    <h1 class="or-heading-1">Na czym polega ćwiczenie?</h1>
+    <p>Tworzymy galerię zdjęć wyświetlaną w oknie modalnym.</p>
+    <p>Po kliknięciu przycisku użytkownik otwiera galerię i może wybrać jedno lub wiele zdjęć.</p>
+    <p>Po zatwierdzeniu zaznaczone fotografie pojawiają się na głównej stronie.</p>
+</div>
+
+<div class="or-card">
+    <h2 class="or-heading-2">Budowa galerii</h2>
+    <p>Każde zdjęcie umieszczamy wewnątrz elementu <code>label</code>.</p>
+    <p>W środku znajduje się również odpowiadający mu <code>checkbox</code>.</p>
+    <p>Dzięki temu kliknięcie w miniaturę automatycznie zaznacza lub odznacza zdjęcie.</p>
+    <p>Checkbox warto umieścić w lewym górnym rogu fotografii za pomocą pozycjonowania absolutnego.</p>
+</div>
+
+<div class="or-card">
+    <h2 class="or-heading-2">Generowanie zdjęć</h2>
+    <p>Zdjęcia przechowujemy w tablicy zawierającej ścieżki do plików.</p>
+    <p>Następnie za pomocą pętli tworzymy wszystkie elementy galerii.</p>
+    <p>Dzięki temu dodanie nowego zdjęcia wymaga jedynie dopisania kolejnej ścieżki do tablicy.</p>
+</div>
+
+<div class="or-card">
+    <h2 class="or-heading-2">Podpowiedzi</h2>
+    <p>Nadaj elementowi <code>label</code> pozycję <code>relative</code>.</p>
+    <p>Checkbox ustaw jako <code>absolute</code> z wartościami <code>top: 10px</code> oraz <code>left: 10px</code>.</p>
+    <p>Zaznaczone zdjęcie możesz wyróżnić za pomocą obramowania lub efektu świecenia.</p>
+    <p>Przy pobieraniu wybranych elementów przyda się selektor <code>:checked</code>.</p>
+</div>
+
+
+<div class="or-card">
+    <h1 class="or-heading-1">Powodzenia</h1>
+    <a href="../Zagadnienia/Galeria.html" style="color: aqua;">Ćwiczenie</a>
+</div>
+
+</body>
+</html>

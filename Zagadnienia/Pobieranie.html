@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>04.06.2026 16:18</title>
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        img, video{
+            height: 30dvw;
+        }
+        button{
+            max-width: 50vw;
+        }
+    </style>
+</head>
+<body class="or-theme--reforged or-root">
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">O co chodzi z pobieraniem zdjęć?</h1>
+        <p>
+            Każdy wie, że da się pobrać zdjęcia klikając na nie prawym myszki.
+            <br>
+            Robimy galerie, więc robimy to ładnie, czyli na dwa sposoby, wymagany 2 na zaliczenie.
+        </p>
+    </div>
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Pierwszy sposób anchor z atrybutem dowload</h1>
+        <p>Najprostszy sposób pobrania obrazka to użycie linku z atrybutem download:</p>
+        <div class="or-grid">
+            <code class="or-code">
+                &lt;a href="zdjecie.format" download&gt;Pobierz zdjęcie&lt;/a&gt;
+            </code>
+            <img src="../Image i inne/AshuraChan.png" alt="Zdjęcie" class="or-animate--data-flicker">
+            <a href="../Image i inne/AshuraChan.png" download style="color: aqua;">Pobierz zdjęcie</a>
+        </div>
+        <p>Po kliknięciu przeglądarka pobierze plik zamiast go otwierać.</p>
+    </div>
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Drugi sposób za pomocą guzika</h1>
+        <p>To samo, tylko tym razem w Javascript, button można ładniej stylizować niż znacznik &lt;a&gt;</p>
+        <h3 class="or-heading-3">Plusy:</h3>
+        <p>Ten sposób pozwala na pobranie nawet jeśli źródło się zmieni. Przykład: </p>
+        <a href="https://2009t-rex.github.io/Prosty-edytor-zdj-/" style="color: aqua;">Przykład ze zmianą zdjęcia.</a>
+        <div class="or-grid">
+            <img id="obrazek" src="../Image i inne/AshuraChan2.png" alt="Zdjęcie" class="or-animate--data-flicker">
+            <button id="zapiszFile" class="or-btn OR-btn--primary">Pobierz zdjęcie</button><br>
+            <code class="or-code">
+                //Obrazek ma id obrazek, guzik id zapiszFile<br>
+                const zapiszFile = document.getElementById("zapiszFile");<br>
+                const obrazek = document.getElementById("obrazek");<br>
+                <br>
+                zapiszFile.addEventListener("click", () => {<br>
+                    const save = document.createElement("a");<br>
+
+                    save.href = obrazek.src;<br>
+                    <br>
+                    // Pobranie nazwy pliku z adresu obrazka<br>
+                    const nazwaPliku = obrazek.src.split("/").pop()<br>
+                    
+                    save.download = nazwaPliku;<br>
+                    <br>
+                    document.body.appendChild(save);<br>
+                    save.click();<br>
+                    document.body.removeChild(save);<br>
+                });
+            </code>
+        </div>
+    </div>
+    <script>
+        const zapiszFile = document.getElementById("zapiszFile");
+        const obrazek = document.getElementById("obrazek");
+
+        zapiszFile.addEventListener("click", () => {
+            const save = document.createElement("a");
+
+            save.href = obrazek.src;
+
+            // Pobranie nazwy pliku z adresu obrazka
+            const nazwaPliku = obrazek.src.split("/").pop()
+            save.download = nazwaPliku;
+
+            document.body.appendChild(save);
+            save.click();
+            document.body.removeChild(save);
+        });
+    </script>
+    <div class="or-card or-animate--pulse-glow">
+        <h1 class="or-heading-1 or-text--glow">Można również zapisać wideo tym sposobem:</h1>
+        <p>Tutaj brak kodu, bo "skupiamy się" na galerii</p>
+        <div class="or-grid">
+            <video id="video" controls muted>
+                <source src="../Image i inne/I animated her to cheer you up!.mp4" type="video/mp4">
+            </video>
+            <button id="zapiszFilm" class="or-btn OR-btn--secondary">Pobierz film</button>
+        </div>
+    </div>
+    <script>
+        const zapiszFilm = document.getElementById("zapiszFilm");
+        const video = document.getElementById("video");
+
+        zapiszFilm.addEventListener("click", () => {
+            const save = document.createElement("a");
+
+            save.href = video.currentSrc || video.src;
+
+            const url = new URL(save.href);
+            save.download = url.pathname;
+
+            document.body.appendChild(save);
+            save.click();
+            document.body.removeChild(save);
+        });
+    </script>
+</body>
+</html>

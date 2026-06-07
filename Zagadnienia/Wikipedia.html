@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl-Pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/2009t-rex/Biblioteka-Kolor-w@main/DoomL.css">
+    <title>Wikipedia mini</title>
+    <style>
+        body{
+            font-size: 2em;
+            hyphens: auto;
+            text-align: justify;
+        }
+        .def{
+            text-decoration: underline;
+            color: blue;
+            position: relative;
+        }
+        .pop{
+            visibility: hidden;
+            position: absolute;
+            opacity: 0;
+            transition: 0.2s;
+            padding: 1em;
+            color: black;
+            background-color: antiquewhite;
+            border: 2px solid blue;
+            border-radius: 0.5em;
+            left: 0px;
+            top: 1.1em;
+            display: inline-block;
+            box-shadow: 0px 4px 10px gray;
+            z-index: 999;
+            width: max-content; /* Mówi: "bądź tak szeroki, jak Twój tekst w jednej linii" */
+            max-width: 40vw;    /* Ale nie bądź szerszy niż 80% ekranu (żeby nie wyszedł poza okno) */
+            max-height: 33vh;
+            overflow-y: auto;
+            scrollbar-color: gray transparent;
+            scrollbar-width: 0;
+            white-space: normal; /* Pozwala na zawijanie, gdy osiągnie max-width */
+        }
+        .def.up > .pop{
+            top: auto;
+            bottom: 1.1em;
+        }
+        .def.left > .pop{
+            left: auto;
+            right: 0px;
+        }
+        .pop > h1, .pop > h2, .pop > h3, .pop > h4, .pop > h5, .pop > h6{
+            margin-top: 0;
+            margin-bottom: 0.4em;
+        }
+        .def:hover > .pop, .pop:hover{
+            visibility: visible;
+            opacity: 1;
+        }
+        .close{
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        @media (max-width: 768px) {
+            .def:hover{
+                cursor: pointer;
+            }
+            .pop{
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                width: 100%;
+                max-width: 100%;
+                border-radius: 0;
+                height: fit-content;
+                max-height: 50vh;
+                box-sizing: border-box;
+            }
+            .def.hover > .pop, .pop.hover{
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            .def:hover > .pop, .pop:hover{
+                opacity: 0
+            }
+            .close{
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    Lorem, ipsum dolor sit amet consectetur adipisicing <span class="def">elit<div class="pop"><h4>elit</h4>Lorem ipsum dolor sit amet consectetur, adipisicing <b>elit</b>. Soluta, non.</div></span>. Doloribus nisi voluptatibus rerum explicabo fugit nobis officiis esse incidunt, sequi eveniet consequuntur, earum quisquam? Id cupiditate libero, nisi blanditiis necessitatibus soluta.
+    Veniam officia, odio voluptatibus, aspernatur quibusdam totam itaque laboriosam laudantium tempora cupiditate deleniti esse eos omnis facere fuga pariatur doloribus? Quos velit expedita earum quam rem quas suscipit non. Assumenda!
+    Odio, quidem ut corrupti in quia incidunt, explicabo iste molestias maiores enim veritatis quaerat sapiente vero hic nesciunt facere repudiandae ratione sequi voluptatibus quisquam, necessitatibus eius totam. Provident, quibusdam illum.
+    Tenetur, numquam laboriosam? Eligendi velit maiores pariatur aut provident deserunt! Inventore error <span class="def">quisquam<div class="pop"><h4>quisquam</h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, ipsa.</div></span>, iusto dolores maxime repellat est voluptate. Quam enim natus voluptatibus at exercitationem voluptatum a quibusdam voluptates cum.
+    Earum, inventore nulla corrupti quisquam illum sint est minus unde quis voluptates veritatis molestias incidunt autem similique non voluptate, a nam dignissimos sit asperiores. Possimus nesciunt vel quaerat voluptates perferendis!
+    Laboriosam nostrum provident amet quibusdam id laborum dignissimos alias distinctio unde quaerat, natus exercitationem aperiam maiores nulla sint ullam. Esse eum eveniet quam neque. Illo repellendus tenetur quidem nobis repellat!
+    Libero deleniti totam eius, earum aliquam nobis est voluptatibus similique voluptas rem doloribus cum quasi aspernatur. Amet, totam autem expedita, sed voluptatum nemo nisi, quo nobis quidem minima animi reiciendis?
+    Sit tempore temporibus et itaque aut perferendis labore placeat culpa illo esse sequi soluta similique dignissimos magni ipsam dolore eaque, cumque impedit fugit a qui inventore at tempora. Repellat,  <span class="def">officia!<div class="pop"><h4>officia</h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, ipsa.</div></span>
+    Numquam, at aliquam perspiciatis blanditiis tempore quibusdam id architecto nemo ab cumque distinctio odio hic dignissimos vitae magnam earum impedit atque nulla dolores voluptatem. Quisquam vero optio laudantium aliquid aut?
+    Adipisci itaque quaerat, aliquam odio fuga porro voluptates cum impedit officia eaque repudiandae sint repellendus, temporibus rerum expedita vitae, mollitia nihil accusantium assumenda? Tenetur, error adipisci! Amet quos minima reprehenderit.
+    <script>
+        const options_y = {
+            rootMargin: '-50% 0px 0px 0px', 
+            threshold: 0 
+        }
+        const options_x = {
+            rootMargin: '0px 0px 0px -50%', 
+            threshold: 0 
+        }
+        const callback_y = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                entry.target.classList.add('up')
+                } else {
+                entry.target.classList.remove('up')
+                }
+            })
+        }
+        const callback_x = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                entry.target.classList.add('left')
+                } else {
+                entry.target.classList.remove('left')
+                }
+            })
+        }
+        document.querySelectorAll('.def').forEach(element => {
+            const observer_x = new IntersectionObserver(callback_x, options_x)
+            observer_x.observe(element)
+            const observer_y = new IntersectionObserver(callback_y, options_y)
+            observer_y.observe(element)
+            element.addEventListener('click', (event) => {
+                document.querySelectorAll('.def').forEach(element => element.classList.remove('hover'))
+                if (event.target.classList.contains('def')) event.target.classList.add('hover')
+            })
+        })
+        document.querySelectorAll('.pop').forEach(element => {
+            const button = document.createElement('button')
+            button.innerText = 'x'
+            button.onclick = () => document.querySelectorAll('.def').forEach(e => e.classList.remove('hover'))
+            button.classList.add('close')
+            element.appendChild(button)
+        })
+    </script>
+</body>
+</html>

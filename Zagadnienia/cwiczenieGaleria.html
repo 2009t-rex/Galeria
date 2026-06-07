@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/2009t-rex/Biblioteka-Kolor-w@main/DoomL.css">
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .gallery{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px; 
+            padding: 16px;
+            width: 100%;
+        }
+
+        .gallery .image {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        /* POPRAWKA: Tutaj przypisujemy dynamiczną zmienną --bg-url */
+        .gallery .image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--bg-url) center/cover no-repeat; /* <--- TUTAJ */
+            filter: blur(20px) saturate(150%);
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .gallery .image img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            z-index: 2;
+        }
+
+        #cover:checked ~ .gallery .image img{
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: .25s;
+        }
+        .gallery .image:hover{
+            opacity: 0.8;
+        }
+        dialog{
+            border-radius: 5px;
+            background-color: var(--doom-bg);
+        }
+
+        /* Stylizacja modala */
+        dialog {
+            opacity: 0;
+            transform: perspective(2000px) rotateX(-90deg);
+            transform-origin: top center; 
+            transition: 
+                opacity 0.5s ease-out, 
+                transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                display 0.5s allow-discrete;
+        }
+
+        dialog[open] {
+            opacity: 1;
+            transform: perspective(2000px) rotateX(0deg);
+        }
+
+        @starting-style {
+            dialog[open] {
+                opacity: 0;
+                transform: perspective(2000px) rotateX(-90deg);
+            }
+        }
+
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0);
+            transition: background-color 0.5s ease, display 0.5s allow-discrete;
+        }
+
+        dialog[open]::backdrop {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        @starting-style {
+            dialog[open]::backdrop {
+                background-color: rgba(0, 0, 0, 0);
+            }
+        }
+
+        .dialog-menu{
+            text-align: right;
+            margin-bottom: 10px;
+            gap: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        #dialog-image img{
+            height: 80vh
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" name="" id="cover"> Mode: Cover
+    <div class="gallery">
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=1" alt="Zdjęcie 1"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/600/800?random=2" alt="Zdjęcie 2"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/800/600?random=3" alt="Zdjęcie 3"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=4" alt="Zdjęcie 4"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=5" alt="Zdjęcie 5"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=6" alt="Zdjęcie 6"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=1" alt="Zdjęcie 1"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/600/800?random=2" alt="Zdjęcie 2"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/800/600?random=3" alt="Zdjęcie 3"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=4" alt="Zdjęcie 4"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=5" alt="Zdjęcie 5"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=6" alt="Zdjęcie 6"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=1" alt="Zdjęcie 1"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/600/800?random=2" alt="Zdjęcie 2"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/800/600?random=3" alt="Zdjęcie 3"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=4" alt="Zdjęcie 4"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=5" alt="Zdjęcie 5"></div>
+        <div class="image"><img class="gallery-item" src="https://picsum.photos/500/500?random=6" alt="Zdjęcie 6"></div>
+    </div>
+    <dialog>
+        <div class="dialog-menu"><button id="download" class="doom-btn">Pobierz</button><button onclick="closeModal()" class="doom-btn">Zamknij</button></div>
+        <div id="dialog-image"></div>
+    </dialog>
+    <script>
+        const gallery = document.querySelector('.gallery')
+        const images = gallery.querySelectorAll('.image')
+        fetch("https://raw.githubusercontent.com/2009t-rex/Galeria/refs/heads/main/Image%20i%20inne/listaZdjec.txt")
+        .then((res) => {
+            if(!res.ok){
+                throw new Error("Nie udało się pobrać pliku. :C")
+            }
+            return res.text()
+        })
+        .then((text) => {
+            zapis = text.split('\r\n')
+            images.forEach(img => {
+                img.querySelector('img').setAttribute("src", `https://raw.githubusercontent.com/2009t-rex/Galeria/refs/heads/main/Image%20i%20inne/${zapis[Math.floor((Math.random() * zapis.length))]}`)
+            })
+            images.forEach(imgContainer => {
+                const imgSrc = imgContainer.querySelector('img').src;
+                // POPRAWKA: Ustawiamy zmienną CSS na kontenerze, którą przejmuje ::before
+                imgContainer.style.setProperty('--bg-url', `url(${imgSrc})`);
+            })
+        })
+        .catch((e) => console.log(e))
+
+
+        
+        const modal = document.querySelector('dialog')
+        document.querySelectorAll('.gallery .image').forEach(image => {
+            image.addEventListener('click', e => {
+                // POPRAWKA: Naprawiono literówkę .que na .querySelector
+                const newImage = e.currentTarget.querySelector('img').cloneNode(true)
+                document.getElementById('dialog-image').innerHTML = ''
+                document.getElementById('dialog-image').appendChild(newImage)
+                modal.showModal()
+            })
+        })
+        function closeModal(){
+            modal.close()
+        }
+        const zapiszFile = document.getElementById("download");
+
+        zapiszFile.addEventListener("click", () => {
+            const obrazek = document.querySelector("#dialog-image > .gallery-item");
+            const save = document.createElement("a");
+            if (!obrazek) return;
+
+            save.href = obrazek.src;
+
+            // Pobranie nazwy pliku z adresu obrazka
+            const url = new URL(obrazek.src);
+            const nazwaPliku = url.pathname.split("/").pop() || "obrazek.jpg";
+            save.download = nazwaPliku;
+
+            document.body.appendChild(save);
+            save.click();
+            document.body.removeChild(save);
+        });
+    </script>
+</body>
+</html>

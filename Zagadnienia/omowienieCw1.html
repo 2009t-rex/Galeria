@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>06.06.2026 19:29</title>
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+        input, button{
+            max-width: 30vw;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="or-theme--green-nebula or-root">
+    <div class="or-card">
+        <h1 class="or-heading-1">Na czym polega ćw1?</h1>
+        <p>Prosta strona z notatkami.</p>
+    </div>
+    <h3 class="or-heading-3">Zrobić zdjęcie, bo tylko teraz wyświetlam.</h3>
+    <div class="or-card">
+        <p>template - Element HTML niewidoczny na stronie. Przechowuje gotową strukturę, którą można skopiować przez JS kiedy potrzeba.</p>
+        <p>template — przykład użycia</p>
+        <div class="or-grid">
+            <code class="or-code">
+                const kopia = template.content.cloneNode(true) <br>
+                list.appendChild(kopia)
+            </code>
+        </div>
+        <p>Tworzymy tablice: cursor i note, które przechowywują pozycje.</p>
+        <p>Nasłuchujemy zdarzenia <code>mousedown</code> i sprawdzamy, czy kliknięty element ma klasę <code>notka</code>.</p>
+        <div class="or-grid">
+            <code class="or-code">
+                if(e.target.classList.contains("notka")){
+            </code>
+        </div>
+        <p>Jeśli tak, zapisujemy pozycję kursora oraz pozycję elementu na ekranie za pomocą <code>getBoundingClientRect()</code>.</p>
+        <p>Podczas <code>mousemove</code> sprawdzamy, czy istnieje aktywny przeciągany element.</p>
+        <p>Jeśli tak, obliczamy różnicę między aktualną pozycją kursora a miejscem rozpoczęcia przeciągania.</p>
+        <div class="or-grid">
+            <code class="or-code">
+                let odleglosc = { <br>
+                    x: obecnyCursor.x - cursor.x, <br>
+                    y: obecnyCursor.y - cursor.y <br>
+                } <br>
+            </code>
+        </div>
+        <p>Na tej podstawie aktualizujemy pozycję elementu, ustawiając <code>left</code> i <code>top</code> oraz <code>width</code> i <code>height</code> przy zmianie rozmiaru.</p>
+        <p>Zmieniamy kursor na <code>grab</code> lub <code>nwse-resize</code>, aby pokazać tryb przeciągania.</p>
+        <p>Podczas <code>mouseup</code> kończymy przeciąganie i resetujemy stan oraz kursor.</p>
+        <p>Eventlistery wszystkie:</p>
+        <div class="or-grid">
+            <code class="or-code">
+document.addEventListener("mousedown", (e) => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(e.target.classList.contains("notka") || e.target.classList.contains('resize')){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.preventDefault()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cursor = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x: e.clientX,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y: e.clientY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.target.classList.contains('resize')){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dom: e.target.closest(".notka"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x: e.target.closest(".notka").getBoundingClientRect().width,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y: e.target.closest(".notka").getBoundingClientRect().height,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resize: true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dom: e.target.closest(".notka"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x: e.target.getBoundingClientRect().left,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y: e.target.getBoundingClientRect().top,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resize: false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+})<br>
+<br>
+document.addEventListener("mousemove", (e) => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(note.dom == null) return;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let obecnyCursor = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x: e.clientX,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y: e.clientY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let odleglosc = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x: obecnyCursor.x - cursor.x,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y: obecnyCursor.y - cursor.y<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(note.resize){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note.dom.style.width = (note.x + odleglosc.x) + "px"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note.dom.style.height = (note.y + odleglosc.y) + "px"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note.dom.style.cursor = "nwse-resize"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note.dom.style.left = (note.x + odleglosc.x) + "px"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note.dom.style.top = (note.y + odleglosc.y) + "px"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note.dom.style.cursor = "grab"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+})<br>
+<br>
+document.addEventListener("mouseup", (e) => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(note.dom == null) return;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;note.dom.style.cursor = "auto";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;note.dom = null<br>
+})<br>
+            </code>
+        </div>
+        <a href="../Zagadnienia/DragiDropy.html" style="color: aqua;">Ćwiczenie</a>
+    </div>
+</body>
+</html>

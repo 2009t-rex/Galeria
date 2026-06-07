@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>Poradnik: Nowoczesna Galeria CSS/JS</title>
+    
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+        code{
+            font-style: italic;
+        }
+
+        /* === 1. STYLE GALERII SIATKOWEJ (GRID) === */
+        .gallery {
+            display: grid;
+            /* Elastyczne kolumny: minimum 150px, maks dzieli równo przestrzeń */
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px; 
+            padding: 20px 0;
+            width: 100%;
+        }
+
+        /* === 2. STYLE KONTENERA KAFELKA (Proporcje 1:1) === */
+        .gallery .image {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Wymuszenie idealnego kwadratu */
+            overflow: hidden; /* Ukrywa wystające krawędzie powiększonego tła */
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .gallery .image:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        /* === 3. INTELIGENTNE, ZAMAZANE TŁO (Smart Gradient) === */
+        .gallery .image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            /* Zmienna CSS --bg-url jest wstrzykiwana przez JavaScript */
+            background: var(--bg-url) center/cover no-repeat;
+            filter: blur(20px) saturate(150%); /* Rozmycie i podbicie kolorów */
+            transform: scale(1.1); /* Zapobiega białym poświatom na brzegach */
+            z-index: 1;
+        }
+
+        /* === 4. WŁAŚCIWE ZDJĘCIE (Ostre i dopasowane) === */
+        .gallery .image img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Zdjęcie dopasuje się bez przycinania */
+            z-index: 2; /* Wskakuje nad zamazane tło */
+        }
+
+        /* Opcjonalny przełącznik (gdybyśmy chcieli wymusić tryb Cover) */
+        #cover-toggle:checked ~ .gallery .image img {
+            object-fit: cover;
+        }
+
+        /* === 5. NOWOCZESNY MODAL (Element <dialog>) === */
+        dialog {
+            border: none;
+            border-radius: 12px;
+            background-color: #222;
+            color: white;
+            padding: 20px;
+            max-width: 90vw;
+            max-height: 90vh;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            /* Animacja wyjścia/zamknięcia (Efekt obrotu 3D) */
+            opacity: 0;
+            transform: perspective(2000px) rotateX(-90deg);
+            transform-origin: top center; 
+            transition: 
+                opacity 0.4s ease-out, 
+                transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                display 0.4s allow-discrete;
+        }
+
+        /* Stan, gdy modal jest OTWARTY */
+        dialog[open] {
+            opacity: 1;
+            transform: perspective(2000px) rotateX(0deg);
+        }
+
+        /* Stan STARTOWY przy otwieraniu (wymagany dla płynnej animacji od zera) */
+        @starting-style {
+            dialog[open] {
+                opacity: 0;
+                transform: perspective(2000px) rotateX(-90deg);
+            }
+        }
+
+        /* Stylizacja tła za modalem (Backdrop) */
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0);
+            transition: background-color 0.4s ease, display 0.4s allow-discrete;
+        }
+        dialog[open]::backdrop {
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+        @starting-style {
+            dialog[open]::backdrop {
+                background-color: rgba(0, 0, 0, 0);
+            }
+        }
+
+        .dialog-menu {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+        #dialog-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #dialog-image-container img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="or-theme--ultraviolet or-root">
+
+    <div class="or-card or-animate--pulse-glow">
+        <div class="or-label">
+            <h1 class="or-heading-1 or-text--glow">Jak zbudować nowoczesną galerię zdjęć?</h1>
+            <p>Ten dokument zawiera w pełni działający przykład zaawansowanej galerii siatkowej. Kliknij dowolne zdjęcie poniżej, aby przetestować działanie modala z płynną animacją 3D.</p>
+        </div>
+        <h2 class="or-heading-2 or-text--glow">Podgląd Live Projektu</h2>
+        
+        <input type="checkbox" id="cover-toggle" style="margin-bottom: 15px;" class="or-checkbox"> 
+        <label for="cover-toggle"><strong>Wymuś tryb "object-fit: cover"</strong> (wypełnienie całego kafelka)</label>
+
+        <div class="gallery">
+            <div class="image"><img src="https://picsum.photos/500/500?random=1" alt="Kwadratowe"></div>
+            <div class="image"><img src="https://picsum.photos/600/900?random=2" alt="Pionowe"></div>
+            <div class="image"><img src="https://picsum.photos/900/600?random=3" alt="Poziome"></div>
+            <div class="image"><img src="https://picsum.photos/500/500?random=4" alt="Kwadratowe 2"></div>
+        </div>
+
+        <h2 class="or-heading-2 or-text--glow">Jak to zostało zrobione? Krok po kroku.</h2>
+
+        <h3 class="or-heading-3 or-text--glow">Krok 1: Struktura HTML</h3>
+        <p>Każdy element galerii to <code>div</code> z klasą <code>.image</code>, w którym znajduje się standardowy znacznik <code>&lt;img&gt;</code>. Dodatkowo na dole strony znajduje się nowoczesny tag <code>&lt;dialog&gt;</code> służący jako modal okna podglądu.</p>
+        <pre class="or-code"><code>&lt;div class="gallery"&gt;
+    &lt;div class="image"&gt;&lt;img src="sciezka.jpg" alt="Opis"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;dialog&gt;
+    &lt;div class="dialog-menu"&gt;&lt;button onclick="closeModal()"&gt;Zamknij&lt;/button&gt;&lt;/div&gt;
+    &lt;div id="dialog-image-container"&gt;&lt;/div&gt;
+&lt;/dialog&gt;</code></pre>
+
+        <h3 class="or-heading-3 or-text--glow">Krok 2: Elastyczna Siatka CSS Grid</h3>
+        <p>Użycie <code>grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));</code> sprawia, że przeglądarka sama decyduje, ile kolumn zmieści się na ekranie. Kafelki automatycznie zmniejszają się i zwiększają, dopasowując się do telefonów i monitorów bez pisania Media Queries!</p>
+
+        <h3 class="or-heading-3 or-text--glow">Krok 3: Efekt inteligentnego gradientu w tle (CSS Custom Properties)</h3>
+        <p>Aby tło miało idealnie dopasowaną kolorystykę, wykorzystujemy <strong>to samo zdjęcie, ale mocno zamazane</strong>. Robimy to przy pomocy pseudoelementu <code>::before</code>:</p>
+        <pre class="or-code"><code>.gallery .image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Pobiera adres URL przypisany dynamicznie przez JavaScript */
+    background: var(--bg-url) center/cover no-repeat;
+    filter: blur(20px) saturate(150%);
+    transform: scale(1.1); /* Ukrywa białe krawędzie powstałe przez blur */
+    z-index: 1;
+}</code></pre>
+        <div class="or-card">
+            <strong>Dlaczego stosujemy ::before, a nie zwykły background na divie?</strong><br>
+            Gdybyśmy nałożyli <code>filter: blur()</code> bezpośrednio na kontener <code>.image</code>, rozmyłoby się wszystko wewnątrz niego – włącznie z właściwym, ostrym zdjęciem. Dzięki <code>::before</code> rozmywamy tylko warstwę tła pod spodem, a właściwy obrazek zachowuje 100% ostrości.
+        </div>
+
+        <h3 class="or-heading-3 or-text--glow">Krok 4: Skrypt JavaScript dla Tła i Modala</h3>
+        <p>JavaScript w tym projekcie wykonuje dwa zadania:</p>
+        <ol style="margin-left: 25px; margin-bottom: 15px;">
+            <li>Pętla przechodzi przez kafelki, wyciąga z nich adres `src` zdjęcia i zapisuje go jako zmienną CSS <code>--bg-url</code>. Dzięki temu tło w CSS wie, jaki obrazek rozmyć.</li>
+            <li>Obsługuje otwieranie wbudowanego w HTML5 modala za pomocą natywnej funkcji <code>showModal()</code>.</li>
+        </ol>
+        <pre class="or-code"><code>const gallery = document.querySelector('.gallery');
+const images = gallery.querySelectorAll('.image');
+
+// 1. Automatyczne ustawianie tła ze zmiennej CSS
+images.forEach(imgContainer => {
+    const imgSrc = imgContainer.querySelector('img').src;
+    imgContainer.style.setProperty('--bg-url', `url(${imgSrc})`);
+});
+
+// 2. Obsługa Modala Dialog
+const modal = document.querySelector('dialog');
+images.forEach(image => {
+    image.addEventListener('click', e => {
+        const targetImg = e.currentTarget.querySelector('img');
+        const clonedImg = targetImg.cloneNode(true);
+        
+        const container = document.getElementById('dialog-image-container');
+        container.innerHTML = '';
+        container.appendChild(clonedImg);
+        
+        modal.showModal(); // Natywne, bezpieczne otwarcie okna podglądu
+    });
+});
+
+function closeModal() {
+    modal.close();
+}</code></pre>
+
+        <h3 class="or-heading-3 or-text--glow">Krok 5: Nowoczesna animacja 3D typu "Falldown"</h3>
+        <p>Do animacji okna użyliśmy nowoczesnych reguł CSS: właściwości <code>transition: ... display 0.4s allow-discrete;</code> oraz reguły <code>@starting-style</code>. Pozwala to na płynne animowanie elementów, które zmieniają swój stan z ukrytego (<code>display: none</code>) do widocznego blokowo, co dawniej wymagało skomplikowanego kodu JS.</p>
+    </div>
+
+    <dialog id="custom-modal">
+        <div class="dialog-menu">
+            <button onclick="closeModal()" class="or-btn OR-btn--primary">Zamknij podgląd</button>
+        </div>
+        <div id="dialog-image-container">
+            </div>
+    </dialog>
+
+    <script>
+        const gallery = document.querySelector('.gallery')
+        const images = gallery.querySelectorAll('.image')
+        
+        // Dynamiczne przypisanie tła z kolorystyką zdjęcia
+        images.forEach(imgContainer => {
+            const imgSrc = imgContainer.querySelector('img').src;
+            imgContainer.style.setProperty('--bg-url', `url(${imgSrc})`);
+        })
+        
+        // Logika otwierania modala
+        const modal = document.getElementById('custom-modal')
+        images.forEach(image => {
+            image.addEventListener('click', e => {
+                const newImage = e.currentTarget.querySelector('img').cloneNode(true)
+                document.getElementById('dialog-image-container').innerHTML = ''
+                document.getElementById('dialog-image-container').appendChild(newImage)
+                modal.showModal()
+            })
+        })
+
+        // Zamknięcie modala
+        function closeModal(){
+            modal.close()
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,875 @@
+/* ================================================================
+   VOYAGER DESIGN SYSTEM v3.0
+   ================================================================
+   ARCHITECTURE:
+   1. GLOBAL COLOR TOKENS  — :root, always available everywhere
+   2. THEME VARIABLE SETS  — contextual bg/text/border per theme
+   3. COMPONENTS           — read from theme vars by default
+   4. COLOR MODIFIERS      — .voyager-btn--col-red etc,
+                             override any component's color
+                             regardless of active theme
+   ================================================================ */
+
+
+/* ================================================================
+   1. GLOBAL COLOR TOKENS
+   Every color from every skin, always available, no theme needed.
+   Use these in color modifier classes or inline styles freely.
+   ================================================================ */
+:root {
+
+  /* --- DARK VOYAGER --- */
+  --col-amber:            #e08800;
+  --col-amber-bright:     #ffb300;
+  --col-amber-deep:       #7a4400;
+  --col-amber-dim:        rgba(224,136,0,0.13);
+  --col-amber-glow:       0 0 20px rgba(224,136,0,0.38);
+
+  --col-teal:             #3d7a6a;
+  --col-teal-bright:      #4ecab0;
+  --col-teal-deep:        #1e3f38;
+  --col-teal-dim:         rgba(61,122,106,0.14);
+  --col-teal-glow:        0 0 18px rgba(61,122,106,0.38);
+
+  --col-gold:             #d4a020;
+  --col-gold-bright:      #f0c040;
+  --col-gold-deep:        #7a5808;
+  --col-gold-dim:         rgba(212,160,32,0.14);
+  --col-gold-glow:        0 0 16px rgba(212,160,32,0.30);
+
+  /* --- COSMIC VOYAGER --- */
+  --col-blue:             #3daeff;
+  --col-blue-bright:      #72ccff;
+  --col-blue-deep:        #0a4a80;
+  --col-blue-dim:         rgba(61,174,255,0.13);
+  --col-blue-glow:        0 0 20px rgba(61,174,255,0.42);
+
+  --col-ice:              #a8d8f8;
+  --col-ice-bright:       #d8f0ff;
+  --col-ice-deep:         #2060a0;
+  --col-ice-dim:          rgba(168,216,248,0.12);
+  --col-ice-glow:         0 0 18px rgba(168,216,248,0.28);
+
+  --col-cobalt:           #5588cc;
+  --col-cobalt-bright:    #88aaee;
+  --col-cobalt-deep:      #1a3060;
+  --col-cobalt-dim:       rgba(85,136,204,0.15);
+  --col-cobalt-glow:      0 0 16px rgba(85,136,204,0.32);
+
+  /* --- VOID VOYAGER --- */
+  --col-red:              #cc2020;
+  --col-red-bright:       #ff4040;
+  --col-red-deep:         #5a0808;
+  --col-red-dim:          rgba(204,32,32,0.13);
+  --col-red-glow:         0 0 22px rgba(204,32,32,0.45);
+
+  --col-ember:            #e06020;
+  --col-ember-bright:     #ff8844;
+  --col-ember-deep:       #702808;
+  --col-ember-dim:        rgba(224,96,32,0.13);
+  --col-ember-glow:       0 0 18px rgba(224,96,32,0.38);
+
+  --col-crimson:          #882020;
+  --col-crimson-bright:   #bb4444;
+  --col-crimson-deep:     #400808;
+  --col-crimson-dim:      rgba(136,32,32,0.15);
+  --col-crimson-glow:     0 0 16px rgba(136,32,32,0.32);
+
+  /* --- PALM PARADISE --- */
+  --col-aqua:             #00c8b0;
+  --col-aqua-bright:      #40e8d0;
+  --col-aqua-deep:        #006858;
+  --col-aqua-dim:         rgba(0,200,176,0.13);
+  --col-aqua-glow:        0 0 20px rgba(0,200,176,0.42);
+
+  --col-sunset:           #ff7820;
+  --col-sunset-bright:    #ff9c50;
+  --col-sunset-deep:      #883000;
+  --col-sunset-dim:       rgba(255,120,32,0.13);
+  --col-sunset-glow:      0 0 18px rgba(255,120,32,0.38);
+
+  --col-sky:              #0090e0;
+  --col-sky-bright:       #30b8ff;
+  --col-sky-deep:         #004880;
+  --col-sky-dim:          rgba(0,144,224,0.13);
+  --col-sky-glow:         0 0 16px rgba(0,144,224,0.32);
+
+  /* --- DREAMY COAST --- */
+  --col-magenta:          #cc44cc;
+  --col-magenta-bright:   #ee66ee;
+  --col-magenta-deep:     #661466;
+  --col-magenta-dim:      rgba(204,68,204,0.13);
+  --col-magenta-glow:     0 0 22px rgba(204,68,204,0.45);
+
+  --col-purple:           #7744ee;
+  --col-purple-bright:    #aa77ff;
+  --col-purple-deep:      #330088;
+  --col-purple-dim:       rgba(119,68,238,0.13);
+  --col-purple-glow:      0 0 18px rgba(119,68,238,0.40);
+
+  --col-cyan:             #00ccdd;
+  --col-cyan-bright:      #44eeff;
+  --col-cyan-deep:        #006680;
+  --col-cyan-dim:         rgba(0,204,221,0.13);
+  --col-cyan-glow:        0 0 16px rgba(0,204,221,0.35);
+
+  /* --- MODERN NOIR --- */
+  --col-silver:           #c8d0d8;
+  --col-silver-bright:    #f0f4f8;
+  --col-silver-deep:      #606870;
+  --col-silver-dim:       rgba(200,208,216,0.10);
+  --col-silver-glow:      0 0 20px rgba(200,208,216,0.25);
+
+  --col-ash:              #888c92;
+  --col-ash-bright:       #aab0b8;
+  --col-ash-deep:         #3a3e44;
+  --col-ash-dim:          rgba(136,140,146,0.12);
+  --col-ash-glow:         0 0 16px rgba(136,140,146,0.20);
+
+  --col-carbon:           #505860;
+  --col-carbon-bright:    #707880;
+  --col-carbon-deep:      #202428;
+  --col-carbon-dim:       rgba(80,88,96,0.15);
+  --col-carbon-glow:      0 0 14px rgba(80,88,96,0.22);
+
+  /* --- NEUTRAL STATUS --- */
+  --col-ok:               #4ecf8a;
+  --col-warn:             #ffc04d;
+  --col-danger:           #e05555;
+
+  /* --- SHARED RADII --- */
+  --v-radius-sm:   4px;
+  --v-radius-md:   8px;
+  --v-radius-lg:   14px;
+  --v-radius-xl:   22px;
+  --v-radius-pill: 999px;
+
+  /* --- SHARED FONTS --- */
+  --v-font-display: 'Exo 2', 'Rajdhani', sans-serif;
+  --v-font-body:    'Exo 2', sans-serif;
+  --v-font-mono:    'Share Tech Mono', 'JetBrains Mono', monospace;
+
+  --v-ease: cubic-bezier(0.22,1,0.36,1);
+}
+
+
+/* ================================================================
+   2. THEME VARIABLE SETS
+   Set contextual bg / text / border / glow for each theme.
+   Components read --v-* vars. Color modifiers override per element.
+   ================================================================ */
+
+/* Default = Dark Voyager */
+:root,
+.theme-dark-voyager {
+  --v-accent-primary:         var(--col-amber);
+  --v-accent-primary-bright:  var(--col-amber-bright);
+  --v-accent-primary-deep:    var(--col-amber-deep);
+  --v-accent-primary-dim:     var(--col-amber-dim);
+  --v-accent-primary-glow:    var(--col-amber-glow);
+
+  --v-accent-secondary:       var(--col-teal);
+  --v-accent-secondary-bright:var(--col-teal-bright);
+  --v-accent-secondary-deep:  var(--col-teal-deep);
+  --v-accent-secondary-dim:   var(--col-teal-dim);
+  --v-accent-secondary-glow:  var(--col-teal-glow);
+
+  --v-accent-tertiary:        var(--col-gold);
+  --v-accent-tertiary-bright: var(--col-gold-bright);
+  --v-accent-tertiary-deep:   var(--col-gold-deep);
+  --v-accent-tertiary-dim:    var(--col-gold-dim);
+  --v-accent-tertiary-glow:   var(--col-gold-glow);
+
+  --v-bg-void:    #060810;
+  --v-bg-base:    #0d1017;
+  --v-bg-surface: #13181f;
+  --v-bg-panel:   #191f28;
+  --v-bg-raised:  #1f2631;
+  --v-bg-overlay: rgba(6,8,16,0.90);
+
+  --v-plate-dark:  #252b34;
+  --v-plate-mid:   #2f3840;
+  --v-plate-light: #3c4652;
+  --v-plate-edge:  #4a5666;
+
+  --v-text-primary:   #e8edf5;
+  --v-text-secondary: #9aaabb;
+  --v-text-muted:     #556070;
+
+  --v-border-subtle: rgba(224,136,0,0.10);
+  --v-border-mid:    rgba(224,136,0,0.28);
+  --v-border-strong: rgba(224,136,0,0.55);
+  --v-border-plate:  rgba(74,86,102,0.65);
+
+  --v-shadow-md: 0 6px 20px rgba(0,0,0,0.75);
+  --v-shadow-lg: 0 14px 44px rgba(0,0,0,0.85);
+}
+
+.theme-cosmic-voyager {
+  --v-accent-primary:         var(--col-blue);
+  --v-accent-primary-bright:  var(--col-blue-bright);
+  --v-accent-primary-deep:    var(--col-blue-deep);
+  --v-accent-primary-dim:     var(--col-blue-dim);
+  --v-accent-primary-glow:    var(--col-blue-glow);
+
+  --v-accent-secondary:       var(--col-ice);
+  --v-accent-secondary-bright:var(--col-ice-bright);
+  --v-accent-secondary-deep:  var(--col-ice-deep);
+  --v-accent-secondary-dim:   var(--col-ice-dim);
+  --v-accent-secondary-glow:  var(--col-ice-glow);
+
+  --v-accent-tertiary:        var(--col-cobalt);
+  --v-accent-tertiary-bright: var(--col-cobalt-bright);
+  --v-accent-tertiary-deep:   var(--col-cobalt-deep);
+  --v-accent-tertiary-dim:    var(--col-cobalt-dim);
+  --v-accent-tertiary-glow:   var(--col-cobalt-glow);
+
+  --v-bg-void:    #02060f;
+  --v-bg-base:    #060c18;
+  --v-bg-surface: #0b1525;
+  --v-bg-panel:   #101e32;
+  --v-bg-raised:  #162540;
+  --v-bg-overlay: rgba(2,6,15,0.92);
+
+  --v-plate-dark:  #1a2840;
+  --v-plate-mid:   #223050;
+  --v-plate-light: #2c3e64;
+  --v-plate-edge:  #3a5080;
+
+  --v-text-primary:   #e4f2ff;
+  --v-text-secondary: #7aaccc;
+  --v-text-muted:     #335577;
+
+  --v-border-subtle: rgba(61,174,255,0.10);
+  --v-border-mid:    rgba(61,174,255,0.28);
+  --v-border-strong: rgba(61,174,255,0.55);
+  --v-border-plate:  rgba(34,48,80,0.80);
+
+  --v-shadow-md: 0 6px 20px rgba(0,0,0,0.80);
+  --v-shadow-lg: 0 14px 44px rgba(0,0,0,0.90);
+}
+
+.theme-void-voyager {
+  --v-accent-primary:         var(--col-red);
+  --v-accent-primary-bright:  var(--col-red-bright);
+  --v-accent-primary-deep:    var(--col-red-deep);
+  --v-accent-primary-dim:     var(--col-red-dim);
+  --v-accent-primary-glow:    var(--col-red-glow);
+
+  --v-accent-secondary:       var(--col-ember);
+  --v-accent-secondary-bright:var(--col-ember-bright);
+  --v-accent-secondary-deep:  var(--col-ember-deep);
+  --v-accent-secondary-dim:   var(--col-ember-dim);
+  --v-accent-secondary-glow:  var(--col-ember-glow);
+
+  --v-accent-tertiary:        var(--col-crimson);
+  --v-accent-tertiary-bright: var(--col-crimson-bright);
+  --v-accent-tertiary-deep:   var(--col-crimson-deep);
+  --v-accent-tertiary-dim:    var(--col-crimson-dim);
+  --v-accent-tertiary-glow:   var(--col-crimson-glow);
+
+  --v-bg-void:    #050204;
+  --v-bg-base:    #0a0608;
+  --v-bg-surface: #120a0c;
+  --v-bg-panel:   #1a0e10;
+  --v-bg-raised:  #221218;
+  --v-bg-overlay: rgba(5,2,4,0.93);
+
+  --v-plate-dark:  #2a1416;
+  --v-plate-mid:   #361a1e;
+  --v-plate-light: #442228;
+  --v-plate-edge:  #5a2c34;
+
+  --v-text-primary:   #f5e8e8;
+  --v-text-secondary: #bb8888;
+  --v-text-muted:     #664444;
+
+  --v-border-subtle: rgba(204,32,32,0.12);
+  --v-border-mid:    rgba(204,32,32,0.30);
+  --v-border-strong: rgba(204,32,32,0.58);
+  --v-border-plate:  rgba(90,44,52,0.70);
+
+  --v-shadow-md: 0 6px 20px rgba(0,0,0,0.80);
+  --v-shadow-lg: 0 14px 44px rgba(0,0,0,0.90);
+}
+
+.theme-palm-paradise {
+  --v-accent-primary:         var(--col-aqua);
+  --v-accent-primary-bright:  var(--col-aqua-bright);
+  --v-accent-primary-deep:    var(--col-aqua-deep);
+  --v-accent-primary-dim:     var(--col-aqua-dim);
+  --v-accent-primary-glow:    var(--col-aqua-glow);
+
+  --v-accent-secondary:       var(--col-sunset);
+  --v-accent-secondary-bright:var(--col-sunset-bright);
+  --v-accent-secondary-deep:  var(--col-sunset-deep);
+  --v-accent-secondary-dim:   var(--col-sunset-dim);
+  --v-accent-secondary-glow:  var(--col-sunset-glow);
+
+  --v-accent-tertiary:        var(--col-sky);
+  --v-accent-tertiary-bright: var(--col-sky-bright);
+  --v-accent-tertiary-deep:   var(--col-sky-deep);
+  --v-accent-tertiary-dim:    var(--col-sky-dim);
+  --v-accent-tertiary-glow:   var(--col-sky-glow);
+
+  --v-bg-void:    #020c0e;
+  --v-bg-base:    #041418;
+  --v-bg-surface: #081e22;
+  --v-bg-panel:   #0c262c;
+  --v-bg-raised:  #103038;
+  --v-bg-overlay: rgba(2,12,14,0.92);
+
+  --v-plate-dark:  #0e2830;
+  --v-plate-mid:   #143440;
+  --v-plate-light: #1c4252;
+  --v-plate-edge:  #265268;
+
+  --v-text-primary:   #e0f8f4;
+  --v-text-secondary: #70b8b0;
+  --v-text-muted:     #306060;
+
+  --v-border-subtle: rgba(0,200,176,0.10);
+  --v-border-mid:    rgba(0,200,176,0.28);
+  --v-border-strong: rgba(0,200,176,0.55);
+  --v-border-plate:  rgba(20,52,64,0.80);
+
+  --v-shadow-md: 0 6px 20px rgba(0,0,0,0.75);
+  --v-shadow-lg: 0 14px 44px rgba(0,0,0,0.85);
+}
+
+.theme-dreamy-coast {
+  --v-accent-primary:         var(--col-magenta);
+  --v-accent-primary-bright:  var(--col-magenta-bright);
+  --v-accent-primary-deep:    var(--col-magenta-deep);
+  --v-accent-primary-dim:     var(--col-magenta-dim);
+  --v-accent-primary-glow:    var(--col-magenta-glow);
+
+  --v-accent-secondary:       var(--col-purple);
+  --v-accent-secondary-bright:var(--col-purple-bright);
+  --v-accent-secondary-deep:  var(--col-purple-deep);
+  --v-accent-secondary-dim:   var(--col-purple-dim);
+  --v-accent-secondary-glow:  var(--col-purple-glow);
+
+  --v-accent-tertiary:        var(--col-cyan);
+  --v-accent-tertiary-bright: var(--col-cyan-bright);
+  --v-accent-tertiary-deep:   var(--col-cyan-deep);
+  --v-accent-tertiary-dim:    var(--col-cyan-dim);
+  --v-accent-tertiary-glow:   var(--col-cyan-glow);
+
+  --v-bg-void:    #06040c;
+  --v-bg-base:    #0c0818;
+  --v-bg-surface: #130e24;
+  --v-bg-panel:   #1a1230;
+  --v-bg-raised:  #22183c;
+  --v-bg-overlay: rgba(6,4,12,0.92);
+
+  --v-plate-dark:  #221030;
+  --v-plate-mid:   #2c163e;
+  --v-plate-light: #381e50;
+  --v-plate-edge:  #4c2868;
+
+  --v-text-primary:   #f4e8ff;
+  --v-text-secondary: #aa88cc;
+  --v-text-muted:     #5a3880;
+
+  --v-border-subtle: rgba(204,68,204,0.10);
+  --v-border-mid:    rgba(204,68,204,0.28);
+  --v-border-strong: rgba(204,68,204,0.55);
+  --v-border-plate:  rgba(76,40,104,0.70);
+
+  --v-shadow-md: 0 6px 20px rgba(0,0,0,0.80);
+  --v-shadow-lg: 0 14px 44px rgba(0,0,0,0.90);
+}
+
+.theme-modern-noir {
+  --v-accent-primary:         var(--col-silver);
+  --v-accent-primary-bright:  var(--col-silver-bright);
+  --v-accent-primary-deep:    var(--col-silver-deep);
+  --v-accent-primary-dim:     var(--col-silver-dim);
+  --v-accent-primary-glow:    var(--col-silver-glow);
+
+  --v-accent-secondary:       var(--col-ash);
+  --v-accent-secondary-bright:var(--col-ash-bright);
+  --v-accent-secondary-deep:  var(--col-ash-deep);
+  --v-accent-secondary-dim:   var(--col-ash-dim);
+  --v-accent-secondary-glow:  var(--col-ash-glow);
+
+  --v-accent-tertiary:        var(--col-carbon);
+  --v-accent-tertiary-bright: var(--col-carbon-bright);
+  --v-accent-tertiary-deep:   var(--col-carbon-deep);
+  --v-accent-tertiary-dim:    var(--col-carbon-dim);
+  --v-accent-tertiary-glow:   var(--col-carbon-glow);
+
+  --v-bg-void:    #050506;
+  --v-bg-base:    #0a0a0c;
+  --v-bg-surface: #101012;
+  --v-bg-panel:   #161618;
+  --v-bg-raised:  #1c1c20;
+  --v-bg-overlay: rgba(5,5,6,0.94);
+
+  --v-plate-dark:  #1e1e22;
+  --v-plate-mid:   #262628;
+  --v-plate-light: #303034;
+  --v-plate-edge:  #404044;
+
+  --v-text-primary:   #f0f2f4;
+  --v-text-secondary: #909498;
+  --v-text-muted:     #484c50;
+
+  --v-border-subtle: rgba(200,208,216,0.08);
+  --v-border-mid:    rgba(200,208,216,0.20);
+  --v-border-strong: rgba(200,208,216,0.45);
+  --v-border-plate:  rgba(60,64,68,0.70);
+
+  --v-shadow-md: 0 6px 20px rgba(0,0,0,0.85);
+  --v-shadow-lg: 0 14px 44px rgba(0,0,0,0.95);
+}
+
+
+/* ================================================================
+   3. COMPONENTS
+   All read --v-* theme vars by default.
+   ================================================================ */
+
+/* RESET */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--v-bg-void);
+  color: var(--v-text-primary);
+  font-family: var(--v-font-body);
+  line-height: 1.7;
+  transition: background 0.5s, color 0.4s;
+}
+
+::selection { background: var(--v-accent-primary-dim); color: var(--v-text-primary); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--v-bg-base); }
+::-webkit-scrollbar-thumb { background: var(--v-accent-primary-deep); border-radius: var(--v-radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--v-accent-primary); }
+:focus-visible { outline: 2px solid var(--v-accent-primary); outline-offset: 2px; }
+
+/* --- BUTTON --- */
+.voyager-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  font-family: var(--v-font-display);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .6em 1.4em;
+  border-radius: var(--v-radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+  transition: background .18s, border-color .18s, color .18s, box-shadow .18s, transform .18s;
+  /* internal vars — components set these, modifiers override them */
+  --_bg:     var(--v-accent-primary);
+  --_bg-h:   var(--v-accent-primary-bright);
+  --_bd:     var(--v-accent-primary-bright);
+  --_col:    var(--v-bg-void);
+  --_col-h:  var(--v-bg-void);
+  --_glow:   var(--v-accent-primary-glow);
+  --_dim:    var(--v-accent-primary-dim);
+  background: var(--_bg);
+  color: var(--_col);
+  border-color: var(--_bd);
+}
+.voyager-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.07) 0%, transparent 55%);
+  pointer-events: none;
+}
+.voyager-btn:hover {
+  background: var(--_bg-h);
+  color: var(--_col-h);
+  box-shadow: var(--_glow), 0 4px 16px rgba(0,0,0,.5);
+  transform: translateY(-2px);
+}
+.voyager-btn:active { transform: scale(.97); }
+.voyager-btn:disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
+
+/* Variants */
+.voyager-btn--solid {
+  --_bg:    var(--v-accent-primary);
+  --_bg-h:  var(--v-accent-primary-bright);
+  --_bd:    var(--v-accent-primary-bright);
+  --_col:   var(--v-bg-void);
+  --_col-h: var(--v-bg-void);
+  --_glow:  var(--v-accent-primary-glow);
+}
+.voyager-btn--outline {
+  --_bg:    transparent;
+  --_bg-h:  var(--v-accent-primary-dim);
+  --_bd:    var(--v-accent-primary);
+  --_col:   var(--v-accent-primary-bright);
+  --_col-h: var(--v-accent-primary-bright);
+  --_glow:  var(--v-accent-primary-glow);
+}
+.voyager-btn--ghost {
+  --_bg:    transparent;
+  --_bg-h:  var(--v-accent-primary-dim);
+  --_bd:    var(--v-border-strong);
+  --_col:   var(--v-accent-primary-bright);
+  --_col-h: var(--v-accent-primary-bright);
+  --_glow:  var(--v-accent-primary-glow);
+}
+.voyager-btn--surface {
+  --_bg:    var(--v-bg-panel);
+  --_bg-h:  var(--v-bg-raised);
+  --_bd:    var(--v-border-plate);
+  --_col:   var(--v-text-primary);
+  --_col-h: var(--v-accent-primary-bright);
+  --_glow:  var(--v-accent-primary-glow);
+}
+
+/* Sizes */
+.voyager-btn--sm  { font-size: .65rem; padding: .45em 1em; border-radius: var(--v-radius-sm); }
+.voyager-btn--lg  { font-size: .875rem; padding: .75em 1.9em; border-radius: var(--v-radius-lg); }
+.voyager-btn--xl  { font-size: 1rem; padding: .85em 2.4em; border-radius: var(--v-radius-xl); }
+.voyager-btn--wide { width: 100%; }
+.voyager-btn--icon { padding: .6em; aspect-ratio: 1; border-radius: var(--v-radius-sm); }
+
+
+/* ----------------------------------------------------------------
+   4. COLOR MODIFIERS
+   Override any component's color regardless of active theme.
+   Works on .voyager-btn, .voyager-badge, .voyager-panel__label,
+   .voyager-progress__fill, .voyager-avatar, .voyager-stat::before
+   ---------------------------------------------------------------- */
+
+/* BUTTONS — color modifiers */
+.voyager-btn--col-amber   { --_bg:var(--col-amber);   --_bg-h:var(--col-amber-bright);   --_bd:var(--col-amber-bright);   --_col:#060810; --_col-h:#060810; --_glow:var(--col-amber-glow);   }
+.voyager-btn--col-teal    { --_bg:var(--col-teal);    --_bg-h:var(--col-teal-bright);    --_bd:var(--col-teal-bright);    --_col:#060810; --_col-h:#060810; --_glow:var(--col-teal-glow);    }
+.voyager-btn--col-gold    { --_bg:var(--col-gold);    --_bg-h:var(--col-gold-bright);    --_bd:var(--col-gold-bright);    --_col:#060810; --_col-h:#060810; --_glow:var(--col-gold-glow);    }
+.voyager-btn--col-blue    { --_bg:var(--col-blue);    --_bg-h:var(--col-blue-bright);    --_bd:var(--col-blue-bright);    --_col:#02060f; --_col-h:#02060f; --_glow:var(--col-blue-glow);    }
+.voyager-btn--col-ice     { --_bg:var(--col-ice);     --_bg-h:var(--col-ice-bright);     --_bd:var(--col-ice-bright);     --_col:#02060f; --_col-h:#02060f; --_glow:var(--col-ice-glow);     }
+.voyager-btn--col-cobalt  { --_bg:var(--col-cobalt);  --_bg-h:var(--col-cobalt-bright);  --_bd:var(--col-cobalt-bright);  --_col:#02060f; --_col-h:#02060f; --_glow:var(--col-cobalt-glow);  }
+.voyager-btn--col-red     { --_bg:var(--col-red);     --_bg-h:var(--col-red-bright);     --_bd:var(--col-red-bright);     --_col:#050204; --_col-h:#050204; --_glow:var(--col-red-glow);     }
+.voyager-btn--col-ember   { --_bg:var(--col-ember);   --_bg-h:var(--col-ember-bright);   --_bd:var(--col-ember-bright);   --_col:#050204; --_col-h:#050204; --_glow:var(--col-ember-glow);   }
+.voyager-btn--col-crimson { --_bg:var(--col-crimson); --_bg-h:var(--col-crimson-bright); --_bd:var(--col-crimson-bright); --_col:#050204; --_col-h:#050204; --_glow:var(--col-crimson-glow); }
+.voyager-btn--col-aqua    { --_bg:var(--col-aqua);    --_bg-h:var(--col-aqua-bright);    --_bd:var(--col-aqua-bright);    --_col:#020c0e; --_col-h:#020c0e; --_glow:var(--col-aqua-glow);    }
+.voyager-btn--col-sunset  { --_bg:var(--col-sunset);  --_bg-h:var(--col-sunset-bright);  --_bd:var(--col-sunset-bright);  --_col:#020c0e; --_col-h:#020c0e; --_glow:var(--col-sunset-glow);  }
+.voyager-btn--col-sky     { --_bg:var(--col-sky);     --_bg-h:var(--col-sky-bright);     --_bd:var(--col-sky-bright);     --_col:#020c0e; --_col-h:#020c0e; --_glow:var(--col-sky-glow);     }
+.voyager-btn--col-magenta { --_bg:var(--col-magenta); --_bg-h:var(--col-magenta-bright); --_bd:var(--col-magenta-bright); --_col:#06040c; --_col-h:#06040c; --_glow:var(--col-magenta-glow); }
+.voyager-btn--col-purple  { --_bg:var(--col-purple);  --_bg-h:var(--col-purple-bright);  --_bd:var(--col-purple-bright);  --_col:#06040c; --_col-h:#06040c; --_glow:var(--col-purple-glow);  }
+.voyager-btn--col-cyan    { --_bg:var(--col-cyan);    --_bg-h:var(--col-cyan-bright);    --_bd:var(--col-cyan-bright);    --_col:#06040c; --_col-h:#06040c; --_glow:var(--col-cyan-glow);    }
+.voyager-btn--col-silver  { --_bg:var(--col-silver);  --_bg-h:var(--col-silver-bright);  --_bd:var(--col-silver-bright);  --_col:#050506; --_col-h:#050506; --_glow:var(--col-silver-glow);  }
+.voyager-btn--col-ash     { --_bg:var(--col-ash);     --_bg-h:var(--col-ash-bright);     --_bd:var(--col-ash-bright);     --_col:#050506; --_col-h:#050506; --_glow:var(--col-ash-glow);     }
+.voyager-btn--col-carbon  { --_bg:var(--col-carbon);  --_bg-h:var(--col-carbon-bright);  --_bd:var(--col-carbon-bright);  --_col:#050506; --_col-h:#050506; --_glow:var(--col-carbon-glow);  }
+
+
+/* BADGE */
+.voyager-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--v-font-display);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  padding: .28em .75em;
+  border-radius: var(--v-radius-sm);
+  border: 1px solid transparent;
+  line-height: 1;
+  --_badge-col:  var(--v-accent-primary-bright);
+  --_badge-bg:   var(--v-accent-primary-dim);
+  --_badge-bd:   var(--v-border-mid);
+  color: var(--_badge-col);
+  background: var(--_badge-bg);
+  border-color: var(--_badge-bd);
+  transition: background .4s, border-color .4s, color .4s;
+}
+.voyager-badge::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; animation:dotblink 2.8s ease-in-out infinite; }
+@keyframes dotblink { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+.voyager-badge--no-dot::before { display:none; }
+.voyager-badge--secondary { --_badge-col:var(--v-accent-secondary-bright); --_badge-bg:var(--v-accent-secondary-dim); --_badge-bd:var(--v-accent-secondary); }
+.voyager-badge--tertiary  { --_badge-col:var(--v-accent-tertiary-bright);  --_badge-bg:var(--v-accent-tertiary-dim);  --_badge-bd:var(--v-accent-tertiary); }
+.voyager-badge--muted     { --_badge-col:var(--v-text-muted); --_badge-bg:var(--v-bg-panel); --_badge-bd:var(--v-border-plate); }
+
+/* Badge color modifiers */
+.voyager-badge--col-amber   { --_badge-col:var(--col-amber-bright);   --_badge-bg:var(--col-amber-dim);   --_badge-bd:var(--col-amber);   }
+.voyager-badge--col-teal    { --_badge-col:var(--col-teal-bright);    --_badge-bg:var(--col-teal-dim);    --_badge-bd:var(--col-teal);    }
+.voyager-badge--col-gold    { --_badge-col:var(--col-gold-bright);    --_badge-bg:var(--col-gold-dim);    --_badge-bd:var(--col-gold);    }
+.voyager-badge--col-blue    { --_badge-col:var(--col-blue-bright);    --_badge-bg:var(--col-blue-dim);    --_badge-bd:var(--col-blue);    }
+.voyager-badge--col-red     { --_badge-col:var(--col-red-bright);     --_badge-bg:var(--col-red-dim);     --_badge-bd:var(--col-red);     }
+.voyager-badge--col-ember   { --_badge-col:var(--col-ember-bright);   --_badge-bg:var(--col-ember-dim);   --_badge-bd:var(--col-ember);   }
+.voyager-badge--col-aqua    { --_badge-col:var(--col-aqua-bright);    --_badge-bg:var(--col-aqua-dim);    --_badge-bd:var(--col-aqua);    }
+.voyager-badge--col-sunset  { --_badge-col:var(--col-sunset-bright);  --_badge-bg:var(--col-sunset-dim);  --_badge-bd:var(--col-sunset);  }
+.voyager-badge--col-magenta { --_badge-col:var(--col-magenta-bright); --_badge-bg:var(--col-magenta-dim); --_badge-bd:var(--col-magenta); }
+.voyager-badge--col-purple  { --_badge-col:var(--col-purple-bright);  --_badge-bg:var(--col-purple-dim);  --_badge-bd:var(--col-purple);  }
+.voyager-badge--col-cyan    { --_badge-col:var(--col-cyan-bright);    --_badge-bg:var(--col-cyan-dim);    --_badge-bd:var(--col-cyan);    }
+.voyager-badge--col-silver  { --_badge-col:var(--col-silver-bright);  --_badge-bg:var(--col-silver-dim);  --_badge-bd:var(--col-silver);  }
+
+
+/* PANEL */
+.voyager-panel {
+  background: var(--v-bg-surface);
+  border: 1px solid var(--v-border-plate);
+  border-radius: var(--v-radius-lg);
+  padding: 1.4rem;
+  position: relative;
+  overflow: hidden;
+  --_panel-accent: var(--v-accent-primary);
+  --_panel-glow:   var(--v-accent-primary-glow);
+  --_panel-dim:    var(--v-accent-secondary-dim);
+  transition: border-color .3s, box-shadow .3s, transform .3s var(--v-ease), background .5s;
+}
+.voyager-panel::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%, var(--_panel-dim) 0%, transparent 65%); pointer-events:none; transition:background .5s; }
+.voyager-panel::after  { content:''; position:absolute; bottom:0; left:1.4rem; right:1.4rem; height:1px; background:linear-gradient(to right, transparent, var(--_panel-accent) 30%, var(--_panel-accent) 70%, transparent); transition:background .4s; }
+.voyager-panel:hover   { border-color:var(--v-border-mid); box-shadow:var(--_panel-glow); transform:translateY(-3px); }
+.voyager-panel--lit    { border-color:var(--v-accent-primary-deep); box-shadow:var(--_panel-glow); }
+
+/* Panel color modifiers */
+.voyager-panel--col-amber   { --_panel-accent:var(--col-amber);   --_panel-glow:var(--col-amber-glow);   --_panel-dim:var(--col-amber-dim);   border-color:var(--col-amber-deep);   box-shadow:var(--col-amber-glow);   }
+.voyager-panel--col-teal    { --_panel-accent:var(--col-teal);    --_panel-glow:var(--col-teal-glow);    --_panel-dim:var(--col-teal-dim);    border-color:var(--col-teal-deep);    box-shadow:var(--col-teal-glow);    }
+.voyager-panel--col-red     { --_panel-accent:var(--col-red);     --_panel-glow:var(--col-red-glow);     --_panel-dim:var(--col-red-dim);     border-color:var(--col-red-deep);     box-shadow:var(--col-red-glow);     }
+.voyager-panel--col-blue    { --_panel-accent:var(--col-blue);    --_panel-glow:var(--col-blue-glow);    --_panel-dim:var(--col-blue-dim);    border-color:var(--col-blue-deep);    box-shadow:var(--col-blue-glow);    }
+.voyager-panel--col-aqua    { --_panel-accent:var(--col-aqua);    --_panel-glow:var(--col-aqua-glow);    --_panel-dim:var(--col-aqua-dim);    border-color:var(--col-aqua-deep);    box-shadow:var(--col-aqua-glow);    }
+.voyager-panel--col-magenta { --_panel-accent:var(--col-magenta); --_panel-glow:var(--col-magenta-glow); --_panel-dim:var(--col-magenta-dim); border-color:var(--col-magenta-deep); box-shadow:var(--col-magenta-glow); }
+.voyager-panel--col-purple  { --_panel-accent:var(--col-purple);  --_panel-glow:var(--col-purple-glow);  --_panel-dim:var(--col-purple-dim);  border-color:var(--col-purple-deep);  box-shadow:var(--col-purple-glow);  }
+.voyager-panel--col-cyan    { --_panel-accent:var(--col-cyan);    --_panel-glow:var(--col-cyan-glow);    --_panel-dim:var(--col-cyan-dim);    border-color:var(--col-cyan-deep);    box-shadow:var(--col-cyan-glow);    }
+.voyager-panel--col-silver  { --_panel-accent:var(--col-silver);  --_panel-glow:var(--col-silver-glow);  --_panel-dim:var(--col-silver-dim);  border-color:var(--col-silver-deep);  box-shadow:var(--col-silver-glow);  }
+.voyager-panel--col-gold    { --_panel-accent:var(--col-gold);    --_panel-glow:var(--col-gold-glow);    --_panel-dim:var(--col-gold-dim);    border-color:var(--col-gold-deep);    box-shadow:var(--col-gold-glow);    }
+.voyager-panel--col-sunset  { --_panel-accent:var(--col-sunset);  --_panel-glow:var(--col-sunset-glow);  --_panel-dim:var(--col-sunset-dim);  border-color:var(--col-sunset-deep);  box-shadow:var(--col-sunset-glow);  }
+
+.voyager-panel__label {
+  font-family: var(--v-font-display);
+  font-size: .7rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  color: var(--_panel-accent);
+  margin-bottom: .7rem;
+  display: flex; align-items:center; gap:.5rem;
+  transition: color .4s;
+}
+.voyager-panel__label::before { content:''; width:3px; height:13px; background:var(--_panel-accent); border-radius:var(--v-radius-pill); box-shadow:var(--_panel-glow); flex-shrink:0; transition:background .4s, box-shadow .4s; }
+
+
+/* STAT */
+.voyager-stat {
+  background: var(--v-bg-panel);
+  border: 1px solid var(--v-border-plate);
+  border-radius: var(--v-radius-md);
+  padding: 1.1rem;
+  position: relative;
+  --_stat-col: var(--v-accent-primary);
+  --_stat-glow: var(--v-accent-primary-glow);
+  transition: background .5s, border-color .4s;
+}
+.voyager-stat::before { content:''; position:absolute; top:0; left:1.1rem; right:1.1rem; height:2px; background:var(--_stat-col); border-radius:0 0 2px 2px; box-shadow:var(--_stat-glow); transition:background .4s, box-shadow .4s; }
+.voyager-stat__label  { font-family:var(--v-font-display); font-size:.65rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--v-text-muted); margin-bottom:.5rem; transition:color .4s; }
+.voyager-stat__value  { font-family:var(--v-font-display); font-size:2.2rem; font-weight:900; color:var(--v-text-primary); line-height:1; margin-bottom:.4rem; transition:color .4s; }
+.voyager-stat__delta  { font-family:var(--v-font-mono); font-size:.7rem; }
+.voyager-stat__delta--up   { color:var(--col-ok); }
+.voyager-stat__delta--down { color:var(--col-danger); }
+.voyager-stat__delta--flat { color:var(--v-text-muted); }
+
+/* Stat color modifiers */
+.voyager-stat--col-amber   { --_stat-col:var(--col-amber);   --_stat-glow:var(--col-amber-glow);   }
+.voyager-stat--col-red     { --_stat-col:var(--col-red);     --_stat-glow:var(--col-red-glow);     }
+.voyager-stat--col-blue    { --_stat-col:var(--col-blue);    --_stat-glow:var(--col-blue-glow);    }
+.voyager-stat--col-aqua    { --_stat-col:var(--col-aqua);    --_stat-glow:var(--col-aqua-glow);    }
+.voyager-stat--col-magenta { --_stat-col:var(--col-magenta); --_stat-glow:var(--col-magenta-glow); }
+.voyager-stat--col-purple  { --_stat-col:var(--col-purple);  --_stat-glow:var(--col-purple-glow);  }
+.voyager-stat--col-gold    { --_stat-col:var(--col-gold);    --_stat-glow:var(--col-gold-glow);    }
+.voyager-stat--col-teal    { --_stat-col:var(--col-teal);    --_stat-glow:var(--col-teal-glow);    }
+.voyager-stat--col-silver  { --_stat-col:var(--col-silver);  --_stat-glow:var(--col-silver-glow);  }
+.voyager-stat--col-sunset  { --_stat-col:var(--col-sunset);  --_stat-glow:var(--col-sunset-glow);  }
+.voyager-stat--col-cyan    { --_stat-col:var(--col-cyan);    --_stat-glow:var(--col-cyan-glow);    }
+
+
+/* PROGRESS */
+.voyager-progress { background:var(--v-bg-panel); border:1px solid var(--v-border-plate); border-radius:var(--v-radius-pill); height:8px; overflow:hidden; transition:background .5s; }
+.voyager-progress__fill { height:100%; border-radius:var(--v-radius-pill); position:relative; --_fill-col:var(--v-accent-primary); --_fill-glow:var(--v-accent-primary-glow); background:var(--_fill-col); box-shadow:var(--_fill-glow); transition:width 1s var(--v-ease), background .4s, box-shadow .4s; }
+.voyager-progress__fill::after { content:''; position:absolute; right:0; top:0; bottom:0; width:16px; background:rgba(255,255,255,.28); filter:blur(3px); border-radius:var(--v-radius-pill); }
+
+/* Progress color modifiers */
+.voyager-progress__fill--col-amber   { --_fill-col:var(--col-amber);   --_fill-glow:var(--col-amber-glow);   }
+.voyager-progress__fill--col-teal    { --_fill-col:var(--col-teal);    --_fill-glow:var(--col-teal-glow);    }
+.voyager-progress__fill--col-gold    { --_fill-col:var(--col-gold);    --_fill-glow:var(--col-gold-glow);    }
+.voyager-progress__fill--col-blue    { --_fill-col:var(--col-blue);    --_fill-glow:var(--col-blue-glow);    }
+.voyager-progress__fill--col-red     { --_fill-col:var(--col-red);     --_fill-glow:var(--col-red-glow);     }
+.voyager-progress__fill--col-ember   { --_fill-col:var(--col-ember);   --_fill-glow:var(--col-ember-glow);   }
+.voyager-progress__fill--col-aqua    { --_fill-col:var(--col-aqua);    --_fill-glow:var(--col-aqua-glow);    }
+.voyager-progress__fill--col-sunset  { --_fill-col:var(--col-sunset);  --_fill-glow:var(--col-sunset-glow);  }
+.voyager-progress__fill--col-magenta { --_fill-col:var(--col-magenta); --_fill-glow:var(--col-magenta-glow); }
+.voyager-progress__fill--col-purple  { --_fill-col:var(--col-purple);  --_fill-glow:var(--col-purple-glow);  }
+.voyager-progress__fill--col-cyan    { --_fill-col:var(--col-cyan);    --_fill-glow:var(--col-cyan-glow);    }
+.voyager-progress__fill--col-silver  { --_fill-col:var(--col-silver);  --_fill-glow:var(--col-silver-glow);  }
+.voyager-progress__fill--col-danger  { --_fill-col:var(--col-danger);  --_fill-glow:0 0 10px rgba(200,50,50,.45); }
+
+
+/* AVATAR */
+.voyager-avatar {
+  display: inline-flex; align-items:center; justify-content:center;
+  font-family: var(--v-font-display); font-weight:700; border-radius:50%;
+  background: var(--v-plate-mid);
+  --_av-col:  var(--v-accent-primary);
+  --_av-glow: var(--v-accent-primary-glow);
+  border: 2px solid var(--_av-col);
+  box-shadow: var(--_av-glow);
+  color: var(--_av-col);
+  flex-shrink:0; overflow:hidden;
+  transition: transform .2s, box-shadow .2s, border-color .4s, color .4s;
+}
+.voyager-avatar:hover { transform:scale(1.1); }
+.voyager-avatar--sm { width:32px; height:32px; font-size:.7rem; }
+.voyager-avatar--md { width:44px; height:44px; font-size:.9rem; }
+.voyager-avatar--lg { width:64px; height:64px; font-size:1.2rem; }
+.voyager-avatar--xl { width:88px; height:88px; font-size:1.6rem; }
+
+/* Avatar color modifiers */
+.voyager-avatar--col-amber   { --_av-col:var(--col-amber-bright);   --_av-glow:var(--col-amber-glow);   }
+.voyager-avatar--col-teal    { --_av-col:var(--col-teal-bright);    --_av-glow:var(--col-teal-glow);    }
+.voyager-avatar--col-blue    { --_av-col:var(--col-blue-bright);    --_av-glow:var(--col-blue-glow);    }
+.voyager-avatar--col-red     { --_av-col:var(--col-red-bright);     --_av-glow:var(--col-red-glow);     }
+.voyager-avatar--col-aqua    { --_av-col:var(--col-aqua-bright);    --_av-glow:var(--col-aqua-glow);    }
+.voyager-avatar--col-magenta { --_av-col:var(--col-magenta-bright); --_av-glow:var(--col-magenta-glow); }
+.voyager-avatar--col-purple  { --_av-col:var(--col-purple-bright);  --_av-glow:var(--col-purple-glow);  }
+.voyager-avatar--col-cyan    { --_av-col:var(--col-cyan-bright);    --_av-glow:var(--col-cyan-glow);    }
+.voyager-avatar--col-gold    { --_av-col:var(--col-gold-bright);    --_av-glow:var(--col-gold-glow);    }
+.voyager-avatar--col-silver  { --_av-col:var(--col-silver-bright);  --_av-glow:var(--col-silver-glow);  }
+.voyager-avatar--col-sunset  { --_av-col:var(--col-sunset-bright);  --_av-glow:var(--col-sunset-glow);  }
+
+
+/* ALERT */
+.voyager-alert { display:flex; align-items:flex-start; gap:.75rem; padding:.75rem 1rem; border-radius:var(--v-radius-md); border:1px solid var(--v-border-mid); font-size:.875rem; line-height:1.6; font-weight:300; background:var(--v-accent-primary-dim); color:var(--v-text-primary); transition:background .4s, border-color .4s; }
+.voyager-alert + .voyager-alert { margin-top:.6rem; }
+.voyager-alert__icon { font-size:1rem; flex-shrink:0; margin-top:.1rem; }
+.voyager-alert strong { display:block; font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.2rem; }
+.voyager-alert--col-amber   { background:var(--col-amber-dim);   border-color:var(--col-amber);   color:var(--v-text-primary); }
+.voyager-alert--col-teal    { background:var(--col-teal-dim);    border-color:var(--col-teal);    color:var(--col-teal-bright); }
+.voyager-alert--col-blue    { background:var(--col-blue-dim);    border-color:var(--col-blue);    color:var(--col-blue-bright); }
+.voyager-alert--col-red     { background:var(--col-red-dim);     border-color:var(--col-red);     color:var(--col-red-bright); }
+.voyager-alert--col-aqua    { background:var(--col-aqua-dim);    border-color:var(--col-aqua);    color:var(--col-aqua-bright); }
+.voyager-alert--col-magenta { background:var(--col-magenta-dim); border-color:var(--col-magenta); color:var(--col-magenta-bright); }
+.voyager-alert--col-purple  { background:var(--col-purple-dim);  border-color:var(--col-purple);  color:var(--col-purple-bright); }
+.voyager-alert--col-cyan    { background:var(--col-cyan-dim);    border-color:var(--col-cyan);    color:var(--col-cyan-bright); }
+.voyager-alert--col-gold    { background:var(--col-gold-dim);    border-color:var(--col-gold);    color:var(--col-gold-bright); }
+.voyager-alert--col-silver  { background:var(--col-silver-dim);  border-color:var(--col-silver);  color:var(--col-silver-bright); }
+.voyager-alert--col-danger  { background:rgba(180,30,30,.18);    border-color:rgba(180,30,30,.5); color:#ff8888; }
+
+
+/* FORM */
+.voyager-form-group { display:flex; flex-direction:column; gap:.35rem; margin-bottom:.9rem; }
+.voyager-label { font-family:var(--v-font-display); font-size:.65rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--v-text-muted); transition:color .4s; }
+.voyager-input, .voyager-select, .voyager-textarea { background:var(--v-bg-panel); color:var(--v-text-primary); border:1px solid var(--v-border-plate); border-radius:var(--v-radius-md); padding:.6em .85em; font-family:var(--v-font-body); font-size:.9375rem; font-weight:300; outline:none; width:100%; appearance:none; transition:border-color .18s, box-shadow .18s, background .5s, color .4s; }
+.voyager-input::placeholder, .voyager-textarea::placeholder { color:var(--v-text-muted); }
+.voyager-input:hover, .voyager-select:hover, .voyager-textarea:hover { border-color:var(--v-border-mid); }
+.voyager-input:focus, .voyager-select:focus, .voyager-textarea:focus { border-color:var(--v-accent-primary); box-shadow:0 0 0 3px var(--v-accent-primary-dim); }
+.voyager-textarea { resize:vertical; min-height:90px; }
+.voyager-select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath fill='%23888' d='M5 7 0 0h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:2rem; cursor:pointer; }
+.voyager-select option { background:var(--v-bg-surface); }
+
+
+/* TABLE */
+.voyager-table-wrap { overflow-x:auto; border:1px solid var(--v-border-plate); border-radius:var(--v-radius-lg); transition:border-color .4s; }
+.voyager-table { width:100%; border-collapse:collapse; font-size:.8125rem; }
+.voyager-table thead { background:var(--v-bg-panel); border-bottom:1px solid var(--v-border-mid); transition:background .5s, border-color .4s; }
+.voyager-table th { font-family:var(--v-font-display); font-size:.65rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--v-accent-primary); padding:.8rem 1.1rem; text-align:left; white-space:nowrap; transition:color .4s; }
+.voyager-table td { padding:.7rem 1.1rem; color:var(--v-text-secondary); border-bottom:1px solid var(--v-border-subtle); background:var(--v-bg-surface); vertical-align:middle; transition:background .12s, color .4s; }
+.voyager-table tbody tr:hover td { background:var(--v-bg-panel); }
+.voyager-table tbody tr:last-child td { border-bottom:none; }
+
+
+/* DIVIDER */
+.voyager-divider { border:none; height:1px; background:linear-gradient(to right, transparent, var(--v-border-plate) 25%, var(--v-border-mid) 50%, var(--v-border-plate) 75%, transparent); margin:2rem 0; transition:background .4s; }
+
+/* SECTION LABEL */
+.voyager-section-label { display:flex; align-items:center; gap:1rem; margin:2rem 0 1.25rem; }
+.voyager-section-label::before, .voyager-section-label::after { content:''; flex:1; height:1px; background:var(--v-border-plate); transition:background .4s; }
+.voyager-section-label span { font-family:var(--v-font-display); font-size:.65rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--v-accent-primary); white-space:nowrap; transition:color .4s; }
+
+/* BLOCKQUOTE */
+.voyager-quote { border-left:3px solid var(--v-accent-primary); padding:.75rem 1.25rem; background:var(--v-bg-panel); border-radius:0 var(--v-radius-md) var(--v-radius-md) 0; color:var(--v-text-secondary); font-style:italic; font-weight:300; font-size:.9375rem; line-height:1.75; transition:border-color .4s, background .4s; }
+.voyager-quote cite { display:block; font-size:.7rem; color:var(--v-accent-primary); margin-top:.5rem; font-style:normal; font-weight:700; letter-spacing:.15em; text-transform:uppercase; transition:color .4s; }
+
+/* UTILITIES */
+.v-text-primary   { color:var(--v-text-primary)  !important; }
+.v-text-secondary { color:var(--v-text-secondary) !important; }
+.v-text-muted     { color:var(--v-text-muted)     !important; }
+.v-text-accent    { color:var(--v-accent-primary-bright) !important; }
+.v-text-mono      { font-family:var(--v-font-mono) !important; }
+.v-text-display   { font-family:var(--v-font-display) !important; }
+.v-text-caps      { text-transform:uppercase; letter-spacing:.1em; }
+.v-text-center    { text-align:center; }
+.v-rounded        { border-radius:var(--v-radius-md); }
+.v-rounded-lg     { border-radius:var(--v-radius-lg); }
+.v-pill           { border-radius:var(--v-radius-pill); }
+.v-border         { border:1px solid var(--v-border-plate); }
+.v-flex           { display:flex; }
+.v-flex-center    { display:flex; align-items:center; justify-content:center; }
+.v-flex-between   { display:flex; align-items:center; justify-content:space-between; }
+.v-gap-sm { gap:.5rem; } .v-gap-md { gap:1rem; } .v-gap-lg { gap:1.5rem; }
+.v-mt-sm { margin-top:.5rem; }  .v-mb-sm { margin-bottom:.5rem; }
+.v-mt-md { margin-top:1rem; }   .v-mb-md { margin-bottom:1rem; }
+.v-mt-lg { margin-top:1.5rem; } .v-mb-lg { margin-bottom:1.5rem; }
+.v-p-sm { padding:.5rem; } .v-p-md { padding:1rem; } .v-p-lg { padding:1.5rem; }
+
+
+/* ================================================================
+   KNOWN LIMITATIONS / IMPROVEMENTS FOR NEXT VERSION
+   (open this file and search TODO)
+   ================================================================
+
+   TODO-1: Dark / light mode switch
+   Right now all themes are dark-only. Need a .theme-*--light
+   variant per theme that flips bg tokens to near-white and
+   recalculates text contrast ratios (WCAG AA minimum).
+
+   TODO-2: Proper contrast audit
+   Several color combinations (e.g. col-gold on dark bg,
+   col-silver on noir bg) haven't been contrast-checked.
+   Run through https://webaim.org/resources/contrastchecker/
+   and add -accessible variants where needed.
+
+   TODO-3: voyager-nav component
+   Nav is not in the component library yet — only in the
+   showcase HTML. Should be extracted into proper classes
+   (.voyager-nav, .voyager-nav__logo, .voyager-nav__link)
+   with matching color modifiers.
+
+   TODO-4: voyager-tooltip component
+   Tooltip is missing from this version. CSS-only
+   [data-voyager-tip] attribute trick works but needs
+   color modifier support.
+
+   TODO-5: voyager-tag / voyager-chip component
+   Small pill tags are in the showcase HTML but not formally
+   in the component library with modifier support.
+
+   TODO-6: Animation tokens
+   Glow pulse, scanline sweep, badge dot blink are all
+   hardcoded. Should become variables:
+   --v-anim-duration-pulse, --v-anim-duration-blink etc.
+   so users can slow down or kill animations in one place.
+
+   TODO-7: RTL support
+   All padding/border-radius directions are LTR-only.
+
+   TODO-8: Outline / ghost color modifiers for buttons
+   Currently --col-* modifiers only work cleanly on
+   .voyager-btn--solid. Mixing e.g.
+   .voyager-btn--outline.voyager-btn--col-purple still works
+   but the bg-hover isn't the correct dim value.
+   Need to wire --_dim into the modifier too.
+
+   TODO-9: Form input color modifiers
+   voyager-input focus ring is always the theme primary.
+   Should have .voyager-input--col-* so a purple input
+   focus ring can live on a dark-voyager page.
+
+   TODO-10: Component: voyager-card with image slot
+   Panels have no image/media zone. A voyager-card variant
+   with a top image band + body + footer slot would be useful.
+
+================================================================ */

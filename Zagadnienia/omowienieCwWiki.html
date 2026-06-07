@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Style/order-theme.css">
+    <title>07.06.2026 18:58</title>
+    <style>
+        body{
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 1.5em;
+        }
+        input, button{
+            max-width: 30vw;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="or-theme--green-nebula or-root">
+    <div class="or-card">
+        <h1 class="or-heading-1">Na czym polega ćwiczenie?</h1>
+        <p>Tworzymy mini wersję Wikipedii, w której po najechaniu na słowo pojawia się popover z definicją.</p>
+    </div>
+    <div class="or-card">
+        <h2 class="or-heading-2">Pozycjonowanie dynamiczne</h2>
+        <p>Używamy <code>IntersectionObserver</code>, aby sprawdzić, czy popover wychodzi poza ekran.</p>
+        <p>Jeśli element zbliża się do górnej krawędzi, dodajemy klasę <code>up</code> i przenosimy popup nad słowo.</p>
+        <p>Jeśli zbliża się do lewej krawędzi, dodajemy klasę <code>left</code> i przesuwamy go w drugą stronę.</p>
+    </div>
+
+    <div class="or-card">
+        <h2 class="or-heading-2">JavaScript – logika działania</h2>
+        <div class="or-grid">
+            <code class="or-code">
+const options_y = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rootMargin: '-50% 0px 0px 0px',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;threshold: 0<br>
+}<br>
+<br>
+const options_x = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rootMargin: '0px 0px 0px -50%',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;threshold: 0<br>
+}<br>
+<br>
+const callback_y = (entries) => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;entries.forEach(entry => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry.isIntersecting) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry.target.classList.add('up')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry.target.classList.remove('up')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+}<br>
+<br>
+const callback_x = (entries) => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;entries.forEach(entry => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry.isIntersecting) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry.target.classList.add('left')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry.target.classList.remove('left')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+}<br>
+<br>
+document.querySelectorAll('.def').forEach(element => {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const observer_x = new IntersectionObserver(callback_x, options_x)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;observer_x.observe(element)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const observer_y = new IntersectionObserver(callback_y, options_y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;observer_y.observe(element)<br>
+})<br>
+            </code>
+        </div>
+    </div>
+
+    <div class="or-card">
+        <h2 class="or-heading-2">Tryb mobilny</h2>
+        <p>Na mniejszych ekranach popover jest przypięty do dołu ekranu i zajmuje całą szerokość.</p>
+        <p>Dzięki temu jest czytelny i wygodny w obsłudze na telefonach.</p>
+        <p>Zmienia się też sposób aktywacji – zamiast hover używamy kliknięcia.</p>
+    </div>
+    <div class="or-card">
+        <h1 class="or-heading-1">Powodzenia</h1>
+        <a href="../Zagadnienia/Wikipedia.html" style="color: aqua;">Ćwiczenie</a>
+    </div>
+</body>
+</html>

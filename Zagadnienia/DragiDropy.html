@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/2009t-rex/Biblioteka-Kolor-w@main/DoomL.css">
+    <link rel="stylesheet" href="style.css">
+    <title>DragiDropy</title>
+    <style>
+        *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+main{
+    height: 100dvh;
+    width: 100dvw;
+    overflow: hidden;
+}
+
+form{
+    background-color: aliceblue;
+    width: max-content;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 24px;
+    display: flex;
+    gap: 10px;
+}
+
+form input, button{
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    font-size: larger;
+    cursor: pointer;
+}
+
+form input::-webkit-color-swatch-wrapper{
+    padding: 0;
+}
+form input::-webkit-color-swatch{
+    border-radius: 50%;
+}
+#list textarea{
+    all: unset;
+    color: azure;
+    width: 100%;
+    height: 100%;
+}
+
+#list .notka{
+    background-color: #333;
+    width: max-content;
+    border-top: 30px solid mediumslateblue;
+    border-radius: 10px;
+    box-shadow: 0 20px  50px #0004;
+    padding: 10px;
+    position: absolute;
+    top: 60px;
+    left: 50px;
+    min-width: 100px;
+    min-height: 100px;
+}
+
+#list .notka span{
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    height: 25px;
+    font-size: large;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+#list .notka .resize{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, transparent 50%, black);
+}
+    </style>
+</head>
+<body>
+    <main>
+        <form>
+            <input type="color" id="Kolorki">
+            <button type="button" id="stworzElementBTN">+</button>
+        </form>
+        <div id="list">
+        </div>
+    </main>
+    <template id="tempNotka">
+        <div class="notka">
+            <span class="zamknij">X</span>
+            <textarea placeholder="Napisz coś..."></textarea>
+            <div class="resize"></div>
+        </div>
+    </template>
+    <script>let Kolorki = document.getElementById("Kolorki")
+let stworzElementBtn = document.getElementById("stworzElementBTN")
+let list = document.getElementById("list")
+const tempNotka = document.getElementById("tempNotka")
+
+stworzElementBtn.addEventListener("click", () =>{
+    let nowaNotka = tempNotka.content.cloneNode(true);
+    let notka = nowaNotka.querySelector('.notka');
+    notka.style.borderColor = Kolorki.value;
+    list.appendChild(nowaNotka);
+})
+document.addEventListener("click", (event) =>{
+    if(event.target.classList.contains("zamknij")){
+        event.target.parentNode.remove()
+    }
+})
+
+let cursor = {
+    x: null,
+    y: null
+}
+
+let note = {
+    dom: null,
+    x: null,
+    y: null,
+    resize: false
+}
+document.addEventListener("mousedown", (e) => {
+    if(e.target.classList.contains("notka") || e.target.classList.contains('resize')){
+        e.preventDefault()
+        cursor = {
+            x: e.clientX,
+            y: e.clientY
+        }
+        if (e.target.classList.contains('resize')){
+            note = {
+                dom: e.target.closest(".notka"),
+                x: e.target.closest(".notka").getBoundingClientRect().width,
+                y: e.target.closest(".notka").getBoundingClientRect().height,
+                resize: true
+            }
+        }else{
+            note = {
+                dom: e.target.closest(".notka"),
+                x: e.target.getBoundingClientRect().left,
+                y: e.target.getBoundingClientRect().top,
+                resize: false
+            }
+        }
+    }
+})
+document.addEventListener("mousemove", (e) => {
+    if(note.dom == null) return;
+    let obecnyCursor = {
+        x: e.clientX,
+        y: e.clientY
+    }
+    let odleglosc = {
+        x: obecnyCursor.x - cursor.x,
+        y: obecnyCursor.y - cursor.y
+    }
+    if(note.resize){
+        note.dom.style.width = (note.x + odleglosc.x) + "px"
+        note.dom.style.height = (note.y + odleglosc.y) + "px"
+        note.dom.style.cursor = "nwse-resize"
+    }else{
+        note.dom.style.left = (note.x + odleglosc.x) + "px"
+        note.dom.style.top = (note.y + odleglosc.y) + "px"
+        note.dom.style.cursor = "grab"
+    }
+})
+
+document.addEventListener("mouseup", (e) => {
+    if(note.dom == null) return;
+    note.dom.style.cursor = "auto";
+    note.dom = null
+})
+</script>
+</body>
+</html>
