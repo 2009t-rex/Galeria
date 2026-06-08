@@ -148,7 +148,7 @@
         .then((text) => {
             zapis = text.split('\r\n')
             images.forEach(img => {
-                img.querySelector('img').setAttribute("src", `https://raw.githubusercontent.com/2009t-rex/Galeria/refs/heads/main/Image%20i%20inne/${zapis[Math.floor((Math.random() * zapis.length))]}`)
+                img.querySelector('img').setAttribute("src", `../Image i inne/${zapis[Math.floor((Math.random() * zapis.length))]}`)
             })
             images.forEach(imgContainer => {
                 const imgSrc = imgContainer.querySelector('img').src;
